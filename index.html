@@ -372,6 +372,7 @@
     <div id="main-content">
 
         <section id="intro">
+            <span class="section-eyebrow">Bakhtiar & Salsabila</span>
             <h3>Assalamu'alaikum</h3>
             <div class="divider"><span class="divider-icon">✦</span></div>
 
@@ -506,7 +507,9 @@
         </footer>
     </div>
 
-    <audio id="wedding-bg-music" loop></audio>
+    <div style="display: none;">
+        <audio id="wedding-bg-music" loop></audio>
+    </div>
     <button id="music-toggle-btn" class="music-btn">🎵</button>
 
     <script>
@@ -623,6 +626,7 @@
             loadComments();
             startRandomSlideshow();
             startCountdown();
+            checkExistingRsvp();
         }
 
         function toggleAnon() {
@@ -631,6 +635,8 @@
         }
 
         function selectRsvp(status) {
+            if (localStorage.getItem('rsvpDone_' + loggedInName) === 'true') return;
+            
             selectedStatus = status;
             const btnHadir = document.getElementById('btn-hadir');
             const btnAbsen = document.getElementById('btn-absen');
@@ -653,116 +659,95 @@
             submitBtn.style.cursor = "pointer";
         }
 
-        // 1. PERBAIKAN FUNGSI RSVP (KOLOM E & F)
-async function submitRsvpToSheets() {
-    const submitBtn = document.getElementById('submitRsvpBtn');
-    if (!selectedStatus) return;
+        function checkExistingRsvp() {
+            const submitBtn = document.getElementById('submitRsvpBtn');
+            const btnHadir = document.getElementById('btn-hadir');
+            const btnAbsen = document.getElementById('btn-absen');
 
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Mengirim…";
+            if (localStorage.getItem('rsvpDone_' + loggedInName) === 'true') {
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerText = "Sudah Mengonfirmasi ✕";
+                    submitBtn.style.background = "#d1c7bd";
+                    submitBtn.style.color = "#8a7e74";
+                    submitBtn.style.cursor = "not-allowed";
+                }
+                if (btnHadir) { btnHadir.disabled = true; btnHadir.style.opacity = "0.6"; btnHadir.style.cursor = "not-allowed"; }
+                if (btnAbsen) { btnAbsen.disabled = true; btnAbsen.style.opacity = "0.6"; btnAbsen.style.cursor = "not-allowed"; }
+            }
+        }
 
-    const formData = new URLSearchParams();
-    formData.append('datatype', 'rsvp');
-    formData.append('rsvpName', loggedInName);
-    formData.append('rsvpStatus', selectedStatus);
+        async function submitRsvpToSheets() {
+            const submitBtn = document.getElementById('submitRsvpBtn');
+            
+            if (!selectedStatus) return;
+            if (localStorage.getItem('rsvpDone_' + loggedInName) === 'true') {
+                alert("Anda sudah mengirim konfirmasi kehadiran sebelumnya.");
+                return;
+            }
 
-    try {
-        // Menambahkan mode: 'no-cors' agar tidak memicu error palsu di browser
-        await fetch(commentURL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: formData.toString()
-        });
-        
-        // Jika sampai di sini, langsung tampilkan pesan sukses
-        alert("Konfirmasi kehadiran Anda berhasil dikirim. Terima kasih! 🤍");
-    } catch (e) {
-        console.error(e);
-        alert("Gagal mengirim konfirmasi.");
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Kirim Konfirmasi";
-    }
-}
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Mengirim…";
 
-// 2. PERBAIKAN FUNGSI BUKU TAMU / UCAPAN (KOLOM A & B)
-async function submitRsvpToSheets() {
-    const submitBtn = document.getElementById('submitRsvpBtn');
-    
-    // Validasi tambahan jika status belum dipilih atau user memaksa klik lewat konsol
-    if (!selectedStatus) return;
-    if (localStorage.getItem('rsvpDone_' + loggedInName)) {
-        alert("Anda sudah mengirim konfirmasi kehadiran sebelumnya.");
-        return;
-    }
+            const formData = new URLSearchParams();
+            formData.append('datatype', 'rsvp');
+            formData.append('rsvpName', loggedInName);
+            formData.append('rsvpStatus', selectedStatus);
 
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Mengirim…";
+            try {
+                await fetch(commentURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                });
+                
+                localStorage.setItem('rsvpDone_' + loggedInName, 'true');
+                alert("Konfirmasi kehadiran Anda berhasil dikirim. Terima kasih! 🤍");
+                checkExistingRsvp();
+            } catch (e) {
+                console.error(e);
+                alert("Gagal mengirim konfirmasi.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Kirim Konfirmasi";
+            }
+        }
 
-    const formData = new URLSearchParams();
-    formData.append('datatype', 'rsvp');
-    formData.append('rsvpName', loggedInName);
-    formData.append('rsvpStatus', selectedStatus);
+        async function submitToSheets() {
+            const btn = document.getElementById('submitBtn');
+            const comm = document.getElementById('guestComment');
+            const anon = document.getElementById('isAnonymous');
+            if (!comm.value.trim()) return alert("Silakan tulis ucapan Anda.");
+            
+            btn.disabled = true; 
+            btn.innerText = "Mengirim…";
 
-    try {
-        await fetch(commentURL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: formData.toString()
-        });
-        
-        // SIMPAN TANDA DI BROWSER TAMU BERDASARKAN NAMANYA
-        localStorage.setItem('rsvpDone_' + loggedInName, 'true');
-        
-        alert("Konfirmasi kehadiran Anda berhasil dikirim. Terima kasih! 🤍");
-        
-        // Kunci tombol langsung setelah sukses
-        checkExistingRsvp();
-        
-    } catch (e) {
-        console.error(e);
-        alert("Gagal mengirim konfirmasi.");
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Kirim Konfirmasi";
-    }
-}
+            const formData = new URLSearchParams();
+            formData.append('datatype', 'comment');
+            formData.append('name', loggedInName);
+            formData.append('comment', comm.value);
+            formData.append('isAnon', anon.checked);
 
-// GANTI JUGA FUNGSI UCAPAN LAMA DENGAN INI AGAR SERAGAM DAN AMAN
-async function submitToSheets() {
-    const btn = document.getElementById('submitBtn');
-    const comm = document.getElementById('guestComment');
-    const anon = document.getElementById('isAnonymous');
-    if (!comm.value.trim()) return alert("Silakan tulis ucapan Anda.");
-    
-    btn.disabled = true; 
-    btn.innerText = "Mengirim…";
-
-    const formData = new URLSearchParams();
-    formData.append('datatype', 'comment');
-    formData.append('name', loggedInName);
-    formData.append('comment', comm.value);
-    formData.append('isAnon', anon.checked);
-
-    try {
-        await fetch(commentURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: formData.toString()
-        });
-        comm.value = ''; 
-        anon.checked = false;
-        loadComments();
-        alert("Terima kasih atas ucapan dan doa restunya 🤍");
-    } catch (e) {
-        console.error(e);
-        alert("Gagal mengirim ucapan.");
-    } finally {
-        btn.disabled = false; 
-        btn.innerText = "Kirim Ucapan";
-    }
-}
+            try {
+                await fetch(commentURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                });
+                
+                comm.value = ''; 
+                anon.checked = false;
+                loadComments();
+                alert("Terima kasih atas ucapan dan doa restunya 🤍");
+            } catch (e) {
+                console.error(e);
+                alert("Gagal mengirim ucapan.");
+            } finally {
+                btn.disabled = false; 
+                btn.innerText = "Kirim Ucapan";
+            }
+        }
 
         function renderComments(data) {
             const display = document.getElementById('commentDisplay');
@@ -785,7 +770,6 @@ async function submitToSheets() {
             const display = document.getElementById('commentDisplay');
             display.innerHTML = '<p style="text-align:center; color:var(--text-soft); padding:20px; font-size:0.85rem; font-style:italic;">Memuat ucapan…</p>';
 
-            // Gunakan JSONP agar tidak terkena CORS block dari browser
             const cbName = 'gasCallback_' + Date.now();
             const script = document.createElement('script');
             const timeout = setTimeout(() => {
@@ -808,27 +792,6 @@ async function submitToSheets() {
                 display.innerHTML = '<p style="text-align:center; color:#c0a0a0; padding:20px; font-size:0.85rem; font-style:italic;">Gagal memuat ucapan.</p>';
             };
             document.head.appendChild(script);
-        }
-
-        async function submitToSheets() {
-            const btn = document.getElementById('submitBtn');
-            const comm = document.getElementById('guestComment');
-            const anon = document.getElementById('isAnonymous');
-            if (!comm.value.trim()) return alert("Silakan tulis ucapan Anda.");
-            btn.disabled = true; btn.innerText = "Mengirim…";
-            try {
-                await fetch(commentURL, {
-                    method: 'POST',
-                    body: JSON.stringify({ datatype: 'comment', name: loggedInName, comment: comm.value, isAnon: anon.checked })
-                });
-                comm.value = ''; anon.checked = false;
-                loadComments();
-                alert("Terima kasih atas ucapan dan doa restunya 🤍");
-            } catch (e) {
-                alert("Gagal mengirim ucapan.");
-            } finally {
-                btn.disabled = false; btn.innerText = "Kirim Ucapan";
-            }
         }
 
         getGuestNameFromURL();
