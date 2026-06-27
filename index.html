@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Pernikahan - Denes & Ana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary-gold: #C5A059;
-            --overlay-color: rgba(0,0,0,0.5);
+            --gold-light: #d4b07a;
+            --overlay-color: rgba(0,0,0,0.55);
             --bg-light: #fdfaf7;
-            --text-dark: #4a4a4a;
+            --bg-warm: #f9f5f0;
+            --text-dark: #2c251e;
+            --text-mid: #54493f;
+            --text-soft: #8a7e74;
             --soft-gold: #f4e9e0;
+            --border-gold: rgba(197,160,89,0.25);
         }
 
         * { box-sizing: border-box; }
@@ -24,216 +29,368 @@
             color: var(--text-dark);
             scroll-behavior: smooth;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- HALAMAN DEPAN / COVER (FIXED FULLSCREEN) --- */
+        /* ── COVER ── */
         #opening-page {
-            height: 100vh;
-            width: 100%;
-            position: fixed;
-            top: 0; left: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            height: 100vh; width: 100%;
+            position: fixed; top: 0; left: 0;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
             text-align: center;
             background: linear-gradient(var(--overlay-color), var(--overlay-color)), 
                         url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            z-index: 999;
+            background-size: cover; background-position: center;
+            color: white; z-index: 999;
             transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
             padding: 20px;
         }
 
+        .cover-label {
+            font-size: 0.85rem; letter-spacing: 5px; opacity: 1;
+            text-transform: uppercase; font-weight: 500; margin-bottom: 8px;
+            color: #ffffff;
+        }
+
         .animate-title {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(3.5rem, 10vw, 6rem);
-            color: var(--primary-gold);
-            margin: 15px 0;
+            font-size: clamp(3.8rem, 11vw, 6.5rem);
+            color: var(--primary-gold); margin: 12px 0;
             animation: zoomFade 2.5s infinite alternate;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 14px rgba(0,0,0,0.5);
         }
 
         @keyframes zoomFade {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.05); opacity: 1; }
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.03); opacity: 1; }
+        }
+
+        .cover-date {
+            font-size: 0.85rem; letter-spacing: 5px;
+            opacity: 0.85; font-weight: 400; margin-bottom: 32px;
         }
 
         .guest-label {
-            font-size: 0.75rem; 
-            letter-spacing: 3px; 
-            opacity: 0.9;
-            margin-top: 30px;
-            text-transform: uppercase;
+            font-size: 0.8rem; letter-spacing: 3px;
+            opacity: 1; margin-top: 32px;
+            text-transform: uppercase; font-weight: 500;
+            color: #ffffff;
         }
 
         .guest-name-display { 
-            font-size: clamp(1.5rem, 4vw, 2.3rem); 
-            font-weight: 500; 
-            color: var(--primary-gold); 
-            margin: 15px 0 30px 0; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.6rem, 5vw, 2.4rem); 
+            font-weight: 700; font-style: normal;
+            color: var(--gold-light); 
+            margin: 12px 0 32px 0; letter-spacing: 1.5px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
         }
 
         .btn-open {
-            padding: 14px 40px;
-            background: var(--primary-gold);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            transition: 0.3s ease;
-            font-weight: 500;
+            padding: 14px 42px; background: transparent;
+            color: white; border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 30px; cursor: pointer;
+            font-size: 0.75rem; letter-spacing: 3px;
+            font-weight: 500; transition: 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
         }
+        .btn-open:hover { background: var(--primary-gold); border-color: var(--primary-gold); }
 
-        .btn-open:hover { transform: scale(1.05); background: #ab8947; }
-
-        /* --- KONTEN UTAMA (TERSEMBUNYI SEBELUM DIKLIK) --- */
-        #main-content {
-            display: none;
-            opacity: 0;
-            transition: opacity 1.5s ease;
-        }
+        /* ── KONTEN UTAMA ── */
+        #main-content { display: none; opacity: 0; transition: opacity 1.5s ease; }
 
         section {
-            padding: 60px 20px; 
-            max-width: 900px;
-            margin: auto;
+            padding: 80px 24px; max-width: 900px;
+            margin: auto; text-align: center;
+        }
+
+        /* ── TYPOGRAPHY ── */
+        .section-eyebrow {
+            font-size: 0.7rem; letter-spacing: 6px;
+            text-transform: uppercase; color: var(--primary-gold);
+            font-weight: 500; margin-bottom: 14px; display: block;
+        }
+
+        h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.6rem, 7vw, 3.6rem);
+            color: var(--primary-gold); margin-top: 0; margin-bottom: 8px;
+            font-weight: 400; line-height: 1.1;
+        }
+
+        .body-text {
+            font-size: 0.92rem; line-height: 2.1;
+            color: var(--text-mid); font-weight: 400; letter-spacing: 0.5px;
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            display: flex; align-items: center; gap: 16px;
+            margin: 0 auto 40px; max-width: 200px;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px; background: var(--border-gold);
+        }
+        .divider-icon { color: var(--primary-gold); font-size: 0.7rem; opacity: 0.6; }
+
+        /* ── SCRIPTURE ── */
+        .scripture {
+            margin: 44px auto; padding: 20px 0;
+            max-width: 85%;
+        }
+        .verse-indo { 
+            font-family: 'Montserrat', sans-serif; 
+            font-style: italic;
+            font-size: 0.95rem; 
+            line-height: 2; 
+            color: var(--text-soft); 
+            font-weight: 400;
+        }
+        .verse-ref { 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 600;
+            color: var(--primary-gold); 
+            letter-spacing: 2px;
+            font-size: 0.8rem; 
+            margin-top: 20px; 
+            display: block;
+            text-transform: uppercase;
+        }
+
+        /* ── GALERI ── */
+        .gallery-container {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 14px; margin-top: 36px;
+        }
+        .gallery-item {
+            width: 100%; height: 280px; object-fit: cover;
+            border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+            transition: opacity 0.8s ease-in-out; opacity: 1;
+        }
+
+        /* ── CARD ── */
+        .card {
+            background: white; padding: 50px 40px; border-radius: 30px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-gold); margin-top: 24px;
+        }
+        .card .body-text-lead {
+            font-size: 0.92rem; color: var(--text-mid); font-weight: 400; margin-bottom: 20px;
+        }
+        .event-date {
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 1.65rem;
+            font-weight: 600; 
+            color: var(--primary-gold); 
+            margin: 0 0 24px 0; 
+            letter-spacing: 0.3px;
+        }
+        .event-info { 
+            font-size: 0.95rem; 
+            margin: 0 0 24px 0; 
+            line-height: 2; 
+            color: var(--text-mid); 
+            font-weight: 400; 
+        }
+        .event-info strong { 
+            color: var(--text-dark); 
+            font-weight: 600; 
+        }
+        .venue-name {
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 600;
+            font-size: 0.98rem; 
+            color: var(--text-dark); 
+            margin: 0 0 4px 0;
+        }
+        .venue-address {
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            margin: 0 0 32px 0;
+            font-weight: 400;
+        }
+        .maps-link {
+            color: var(--primary-gold); text-decoration: none;
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+            text-transform: uppercase; display: inline-block;
+            border: 1px solid var(--primary-gold); padding: 12px 28px;
+            border-radius: 25px; transition: 0.3s;
+            background: transparent;
+        }
+        .maps-link:hover { background: var(--primary-gold); color: white; }
+
+        /* ── COUNTDOWN TIMER ── */
+        .countdown-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
             text-align: center;
         }
 
-        h3 { font-family: 'Great Vibes', cursive; font-size: 3rem; color: var(--primary-gold); margin-top: 0; }
-
-        .scripture {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--primary-gold);
-            display: inline-block;
-            max-width: 85%;
-        }
-
-        .verse-indo { font-style: italic; font-size: 1rem; line-height: 1.8; color: #777; }
-        .verse-ref { font-weight: 500; color: var(--primary-gold); letter-spacing: 2px; font-size: 0.8rem; margin-top: 10px; }
-
-        /* --- CSS GALERI (3 BERJEJER DI PC, BERTUMPUK DI HP) --- */
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .gallery-item {
-            width: 100%; height: 280px; object-fit: cover;
-            border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        .card {
-            background: white; padding: 40px 30px; border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.03); border: 1px solid #f0f0f0;
-            margin-top: 20px;
-        }
-
-        .event-info { font-size: 1.1rem; margin: 20px 0; font-weight: 500; line-height: 1.6; }
-
-        .gift-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
-        
-        .gift-box { 
-            border: 1px solid #e0e0e0; 
-            padding: 20px; 
-            border-radius: 12px; 
-            background: #fff; 
-            min-width: 200px; 
-        }
-
-        .bank-name { font-weight: bold; font-size: 0.9rem; color: var(--primary-gold); display: block; margin-bottom: 5px; }
-        .acc-number { font-size: 1.1rem; font-weight: 600; display: block; margin: 10px 0; }
-
-        .comment-section {
-            background-color: #fff; padding: 30px; border-radius: 25px;
-            text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            border: 1px solid #f0f0f0;
-        }
-
-        .comment-form input, .comment-form textarea {
-            width: 100%; padding: 12px; margin-bottom: 10px;
-            border: 1px solid #ddd; border-radius: 8px; font-family: 'Montserrat', sans-serif;
-        }
-
-        .anon-wrapper {
+        .timer-wrapper {
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: flex-start;
-            gap: 10px;
-            margin: 10px 0 20px 0;
-            cursor: pointer;
-            width: 100%;
+            gap: 12px;
+            margin: 36px 0 28px;
+            flex-wrap: wrap;
         }
 
-        .anon-wrapper input[type="checkbox"] { width: 18px; height: 18px; margin: 0; cursor: pointer; }
-        .anon-wrapper label { cursor: pointer; font-size: 0.85rem; color: #666; margin: 0; user-select: none; }
+        .timer-box {
+            background: white; width: 88px; height: 96px;
+            border-radius: 16px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            box-shadow: 0 4px 20px rgba(197,160,89,0.1);
+            border: 1px solid var(--border-gold);
+        }
 
+        .timer-number {
+            font-family: 'Playfair Display', serif; font-size: 2.2rem;
+            color: var(--text-dark); font-weight: 400; line-height: 1;
+        }
+
+        .timer-label {
+            font-family: 'Montserrat', sans-serif; font-size: 0.65rem;
+            color: var(--text-soft); margin-top: 8px; font-weight: 400;
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        .timer-separator {
+            font-family: 'Playfair Display', serif; font-size: 1.8rem;
+            color: var(--border-gold); line-height: 1; margin-bottom: 20px;
+        }
+
+        .countdown-caption {
+            font-family: 'Playfair Display', serif; font-style: italic;
+            font-size: 0.95rem; color: var(--text-soft); line-height: 1.8;
+            letter-spacing: 0.3px;
+        }
+
+        /* ── GIFT ── */
+        .gift-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 28px; }
+        .gift-box { 
+            border: 1px solid var(--border-gold); padding: 26px 30px;
+            border-radius: 16px; background: white; min-width: 210px; text-align: center;
+        }
+        .bank-name {
+            font-weight: 600; font-size: 0.75rem; color: var(--primary-gold);
+            display: block; margin-bottom: 10px; letter-spacing: 3px; text-transform: uppercase;
+        }
+        .acc-number {
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 1.2rem;
+            font-weight: 600; 
+            font-style: normal;
+            display: block; 
+            margin: 8px 0; 
+            color: var(--text-dark); 
+            letter-spacing: 1.5px;
+        }
+        .acc-name { font-size: 0.8rem; color: var(--text-soft); font-weight: 400; letter-spacing: 0.3px; }
+
+        /* ── KOMENTAR ── */
+        .comment-section {
+            background: white; padding: 40px; border-radius: 24px; text-align: left;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.03); border: 1px solid var(--border-gold);
+        }
+        .comment-form input, .comment-form textarea {
+            width: 100%; padding: 14px 18px; margin-bottom: 12px;
+            border: 1px solid #e8e0d8; border-radius: 10px;
+            font-family: 'Montserrat', sans-serif; font-size: 0.88rem;
+            color: var(--text-dark); background: var(--bg-light); outline: none; transition: border-color 0.3s;
+        }
+        .comment-form input:focus, .comment-form textarea:focus { border-color: var(--primary-gold); }
+        .anon-wrapper {
+            display: flex; align-items: center; justify-content: flex-start;
+            gap: 10px; margin: 12px 0 24px; cursor: pointer; width: 100%;
+        }
+        .anon-wrapper input[type="checkbox"] { width: 16px; height: 16px; margin: 0; cursor: pointer; accent-color: var(--primary-gold); }
+        .anon-wrapper label { cursor: pointer; font-size: 0.85rem; color: var(--text-soft); margin: 0; user-select: none; font-weight: 400; }
         .btn-send {
             background: var(--primary-gold); color: white; border: none;
-            padding: 12px 30px; border-radius: 20px; cursor: pointer;
-            font-weight: 600; width: 100%; transition: 0.3s;
+            padding: 14px 30px; border-radius: 20px; cursor: pointer;
+            font-weight: 500; width: 100%; transition: 0.3s;
+            font-family: 'Montserrat', sans-serif; font-size: 0.8rem;
+            letter-spacing: 2px; text-transform: uppercase;
         }
+        .btn-send:hover { background: #ab8947; }
+        .comment-display { margin-top: 28px; max-height: 400px; overflow-y: auto; border-top: 1px solid #f0ece8; }
+        .comment-item { padding: 18px 0; border-bottom: 1px solid #faf8f6; }
+        .comment-item p { margin: 8px 0 0; font-size: 0.88rem; color: var(--text-mid); font-weight: 400; line-height: 1.8; letter-spacing: 0.3px; }
 
-        .comment-display { margin-top: 30px; max-height: 400px; overflow-y: auto; border-top: 1px solid #eee; }
-        .comment-item { padding: 15px 0; border-bottom: 1px solid #fafafa; }
-
-        /* Kelas Transisi Halaman */
+        /* ── STATES ── */
         .hidden-up { transform: translateY(-100vh); pointer-events: none; }
         .show-content { display: block !important; opacity: 1 !important; }
 
-        /* Responsif HP */
+        /* ── MUSIC BUTTON ── */
+        .music-btn {
+            position: fixed; bottom: 28px; right: 28px;
+            width: 48px; height: 48px; border-radius: 50%;
+            background-color: var(--primary-gold); border: none; cursor: pointer;
+            box-shadow: 0 4px 16px rgba(197,160,89,0.4); z-index: 9999;
+            display: none; justify-content: center; align-items: center;
+            color: white; font-size: 1.1rem; transition: transform 0.3s;
+        }
+        .music-btn.playing { animation: spinMusic 4s linear infinite; }
+        @keyframes spinMusic { 100% { transform: rotate(360deg); } }
+
+        /* ── MOBILE ── */
         @media (max-width: 768px) {
-            .gallery-container { grid-template-columns: 1fr; }
-            .gallery-item { height: 220px; }
+            .gallery-container {
+                display: flex; justify-content: center;
+                align-items: center; margin-top: 30px; width: 100%;
+            }
+            #img2, #img3 { display: none !important; }
+            #img1 {
+                display: block !important; width: 85%; max-width: 290px;
+                height: auto; aspect-ratio: 9 / 16; object-fit: cover;
+                border-radius: 140px; border: 3px solid var(--primary-gold);
+                box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            }
+            .timer-box { width: 72px; height: 80px; }
+            .timer-number { font-size: 1.8rem; }
+            .timer-separator { font-size: 1.4rem; }
+            .scripture { max-width: 95%; padding: 20px 0; }
+            .card { padding: 36px 20px; }
+            .comment-section { padding: 28px 20px; }
         }
     </style>
 </head>
 <body>
 
     <div id="opening-page">
-        <p style="letter-spacing: 5px; font-size: 0.9rem;">THE WEDDING OF</p>
+        <p class="cover-label">The Wedding Of</p>
         <h2 class="animate-title">Denes & Ana</h2>
-        <p style="letter-spacing: 2px;">18 . 07 . 2026</p>
-
-        <p class="guest-label">Kami Mengundang Anda:</p>
+        <p class="cover-date">08 · 08 · 2026</p>
+        <p class="guest-label">Dengan hormat, kami mengundang</p>
         <div class="guest-name-display" id="guest-cover-name">Tamu Kehormatan</div>
-        
-        <button class="btn-open" onclick="openInvitation()">BUKA UNDANGAN</button>
+        <button class="btn-open" onclick="openInvitation()">Buka Undangan</button>
     </div>
 
     <div id="main-content">
+
         <section id="intro">
-            <div class="speech-container" style="margin-bottom: 30px;">
-                <h3>Assalamu’alaikum Wr. Wb.</h3>
-                <p style="line-height: 2; margin-bottom: 25px;">
-                    Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud mengundang Bapak/Ibu/Saudara/i atas nama:
-                </p>
-            </div>
+            <span class="section-eyebrow">Bakhtiar & Salsabila</span>
+            <h3>Assalamu'alaikum</h3>
+            <div class="divider"><span class="divider-icon">✦</span></div>
 
-            <h2 id="personalized-inner-name" style="color: var(--primary-gold); margin-bottom: 30px; font-size: 2.3rem; font-weight: 500; text-transform: uppercase;">Tamu Kehormatan</h2>
+            <p class="body-text" style="margin-bottom: 20px;">
+                Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud mengundang<br>Bapak / Ibu / Saudara / i atas nama:
+            </p>
 
-            <div class="speech-container" style="margin-bottom: 40px;">
-                <p style="line-height: 2;">
-                    dalam acara resepsi pernikahan kami. Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Segala puji bagi Allah yang telah menuntun langkah kami hingga sampai pada titik ini.
-                </p>
-            </div>
+            <h2 id="personalized-inner-name" style="font-family:'Montserrat', sans-serif; color:var(--primary-gold); margin: 28px 0; font-size: clamp(1.7rem, 4.5vw, 2.4rem); font-weight:700; font-style: normal; letter-spacing: 0.5px;">Tamu Kehormatan</h2>
+
+            <p class="body-text">
+                dalam acara resepsi pernikahan kami. Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Segala puji bagi Allah yang telah menuntun langkah kami hingga sampai pada titik ini.
+            </p>
 
             <div class="scripture">
                 <p class="verse-indo">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya."</p>
-                <p class="verse-ref">(AR-RUM: 21)</p>
+                <span class="verse-ref">(AR-RUM: 21)</span>
             </div>
+            <div style="height: 1px; background: var(--border-gold); max-width: 85%; margin: 0 auto 40px;"></div>
 
             <div class="gallery-container">
                 <img id="img1" class="gallery-item" src="https://lh3.googleusercontent.com/d/1HR9NXSMe_8Wmqggt39hHmJBmhijHXDuf" alt="Gallery 1">
@@ -242,74 +399,128 @@
             </div>
         </section>
 
-        <section id="event" style="background-color: var(--soft-gold);">
-            <h3>Waktu & Tempat</h3>
-            <div class="card">
-                <p>Kami sangat menantikan kehadiran Anda pada hari bahagia kami:</p>
-                <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary-gold); margin: 15px 0;">
-                    Sabtu, 18 Juli 2026
-                </p>
-                
-                <div class="event-info">
-                    <p><strong>Akad Nikah:</strong> 08:00 WIB</p>
-                    <p><strong>Resepsi:</strong> 10:00 - 12:00 WIB</p>
+        <section id="event" style="background-color: var(--soft-gold); max-width: 100%; padding: 80px 24px;">
+            <div style="max-width: 900px; margin: auto; text-align: center;">
+                <span class="section-eyebrow">Tanggal & Lokasi</span>
+                <h3>Waktu & Tempat</h3>
+                <div class="divider"><span class="divider-icon">✦</span></div>
+
+                <div class="card">
+                    <p class="body-text-lead">Kami sangat menantikan kehadiran Anda pada hari bahagia kami:</p>
+                    <div class="event-date">Sabtu, 18 Juli 2026</div>
+                    <div class="event-info">
+                        <p><strong>Akad Nikah:</strong> 08:00 WIB</p>
+                        <p><strong>Resepsi:</strong> 10:00 - 12:00 WIB</p>
+                    </div>
+                    <p class="venue-name">Masjid Baitul Mu'alim</p>
+                    <p class="venue-address">Jl. Magetan Jalan-jalan, Jawa Timur</p>
+                    <a href="https://maps.app.goo.gl/c6S1E2Xvej8BTPUy9" target="_blank" class="maps-link">Lihat Google Maps →</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="countdown" style="background-color: var(--bg-warm); max-width: 100%; padding: 80px 24px;">
+            <div class="countdown-wrapper">
+                <span class="section-eyebrow">Menghitung Hari</span>
+                <h3>Countdown</h3>
+                <div class="divider"><span class="divider-icon">✦</span></div>
+
+                <div class="timer-wrapper">
+                    <div class="timer-box"><span class="timer-number" id="hari">00</span><span class="timer-label">Hari</span></div>
+                    <span class="timer-separator">·</span>
+                    <div class="timer-box"><span class="timer-number" id="jam">00</span><span class="timer-label">Jam</span></div>
+                    <span class="timer-separator">·</span>
+                    <div class="timer-box"><span class="timer-number" id="menit">00</span><span class="timer-label">Menit</span></div>
+                    <span class="timer-separator">·</span>
+                    <div class="timer-box"><span class="timer-number" id="detik">00</span><span class="timer-label">Detik</span></div>
                 </div>
 
-                <p><strong>Gedung Putih Kasih Sayang</strong><br>
-                Jl. Magetan Jalan-jalan, Jawa Timur</p>
-                
-                <a href="https://maps.app.goo.gl/DhYMx79uqybryC217" target="_blank" style="color:var(--primary-gold); text-decoration:none; font-weight: bold; display: inline-block; margin-top: 20px; border: 1px solid var(--primary-gold); padding: 10px 20px; border-radius: 20px;">LIHAT GOOGLE MAPS →</a>
+                <p class="countdown-caption" style="margin-bottom: 40px;">
+                    Setiap detik membawa kita lebih dekat pada hari yang paling dinantikan.
+                </p>
+
+                <div style="max-width: 450px; margin: 40px auto 0; padding: 30px 24px; background: white; border-radius: 20px; border: 1px solid var(--border-gold); box-shadow: 0 8px 24px rgba(0,0,0,0.02); text-align: center;">
+                    <span class="section-eyebrow" style="margin-bottom: 8px;">Konfirmasi Kehadiran</span>
+                    <p class="body-text" style="font-size: 0.85rem; line-height: 1.6; margin-top: 0; margin-bottom: 20px;">Apakah Anda akan menghadiri hari bahagia kami?</p>
+                    
+                    <div style="display: flex; gap: 12px; justify-content: center; margin-bottom: 15px;">
+                        <button id="btn-hadir" onclick="selectRsvp('Hadir')" style="flex: 1; padding: 12px; border: 1px solid var(--primary-gold); background: transparent; color: var(--primary-gold); border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.3s;">
+                            ✓ Hadir
+                        </button>
+                        <button id="btn-absen" onclick="selectRsvp('Tidak Hadir')" style="flex: 1; padding: 12px; border: 1px solid #d1c7bd; background: transparent; color: var(--text-soft); border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.3s;">
+                            ✕ Tidak Hadir
+                        </button>
+                    </div>
+                    
+                    <button id="submitRsvpBtn" onclick="submitRsvpToSheets()" disabled style="background: #e0dcd5; color: #a19c95; border: none; padding: 14px 30px; border-radius: 20px; cursor: not-allowed; font-weight: 600; width: 100%; transition: 0.3s; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">
+                        Kirim Konfirmasi
+                    </button>
+                </div>
             </div>
         </section>
 
         <section id="gift">
+            <span class="section-eyebrow">Hadiah Pernikahan</span>
             <h3>Wedding Gift</h3>
-            <p>Doa restu Anda adalah kado terindah, namun jika ingin memberi lebih kami sediakan saluran berikut:</p>
+            <div class="divider"><span class="divider-icon">✦</span></div>
+            <p class="body-text">Doa restu Anda adalah hadiah terindah bagi kami. Namun jika ingin memberikan lebih, kami sediakan saluran berikut:</p>
             <div class="gift-container">
                 <div class="gift-box">
-                    <span class="bank-name">BANK BCA</span>
+                    <span class="bank-name">Bank BCA</span>
                     <span class="acc-number">1234 567 890</span>
-                    <p style="margin:0; font-size: 0.8rem;">a.n Denes</p>
+                    <span class="acc-name">a.n Denes</span>
                 </div>
                 <div class="gift-box">
-                    <span class="bank-name">BANK MANDIRI</span>
+                    <span class="bank-name">Bank Mandiri</span>
                     <span class="acc-number">0987 654 321</span>
-                    <p style="margin:0; font-size: 0.8rem;">a.n Ana</p>
+                    <span class="acc-name">a.n Ana</span>
                 </div>
             </div>
         </section>
 
-        <section id="comments">
-            <div class="comment-section">
-                <h3 style="font-size: 2.5rem; text-align: center;">Buku Tamu</h3>
-                <div class="comment-form">
-                    <input type="text" id="guestName" readonly style="background: #f5f5f5;" placeholder="Nama Anda">
-                    <textarea id="guestComment" rows="4" placeholder="Tulis ucapan & doa restu..."></textarea>
-                    
-                    <div class="anon-wrapper" onclick="toggleAnon()">
-                        <input type="checkbox" id="isAnonymous" onclick="event.stopPropagation()">
-                        <label>Kirim sebagai Anonim (Hamba Allah)</label>
+        <section id="comments" style="background-color: var(--soft-gold); max-width: 100%; padding: 80px 24px;">
+            <div style="max-width: 700px; margin: 0 auto;">
+                <span class="section-eyebrow" style="display:block; text-align:center;">Ucapan & Doa</span>
+                <h3 style="text-align:center;">Buku Tamu</h3>
+                <div class="divider"><span class="divider-icon">✦</span></div>
+
+                <div class="comment-section">
+                    <div class="comment-form">
+                        <input type="text" id="guestName" readonly style="background: #f5f2ee;" placeholder="Nama Anda">
+                        <textarea id="guestComment" rows="4" placeholder="Tuliskan ucapan dan doa restu yang tulus untuk kami…"></textarea>
+                        <div class="anon-wrapper" onclick="toggleAnon()">
+                            <input type="checkbox" id="isAnonymous" onclick="event.stopPropagation()">
+                            <label>Kirim sebagai Anonim (Hamba Allah)</label>
+                        </div>
+                        <button class="btn-send" id="submitBtn" onclick="submitToSheets()">Kirim Ucapan</button>
                     </div>
-                    
-                    <button class="btn-send" id="submitBtn" onclick="submitToSheets()">Kirim Ucapan</button>
-                </div>
-                <div class="comment-display" id="commentDisplay">
-                    <p style="text-align:center; color:#999; padding:20px;">Memuat ucapan...</p>
+                    <div class="comment-display" id="commentDisplay">
+                        <p style="text-align:center; color:var(--text-soft); padding:24px; font-size:0.85rem; font-style:italic;">Memuat ucapan…</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <footer style="padding: 60px 20px; text-align: center; background: white;">
-            <h3 style="font-size: 2.5rem;">Denes & Ana</h3>
-            <p style="font-size: 0.8rem; opacity: 0.5; letter-spacing: 2px;">© 2026 . DESIGNED BY US</p>
+            <h3 style="font-size: clamp(2.2rem, 6.5vw, 3rem);">Denes & Ana</h3>
+            <p style="font-size: 0.7rem; color: var(--text-soft); letter-spacing: 3px; margin-top: 4px; font-weight: 400;">© 2026 · DESIGNED WITH HEART</p>
         </footer>
     </div>
 
-    <script>
-        const commentURL = 'https://script.google.com/macros/s/AKfycbxGYUl7Wf5opI73rSmM8yWoCgXZCaqk-unFlJnU4izfaYjLzyfaYHg9yJsgMhHLgVbJ2w/exec';
-        let loggedInName = "Tamu Kehormatan";
+    <audio id="wedding-bg-music" loop></audio>
+    <button id="music-toggle-btn" class="music-btn">🎵</button>
 
-        // --- DATABASE FOTO DRIVE (FORMAT AMAN) ---
+    <script>
+        const commentURL = 'https://script.google.com/macros/s/AKfycbxez90zDmCc15UVvsBkK2aQ3Ti_OpqJyeNyJaj8Lq93w7WmtnkfG0PcjJNo12OcSIwm0w/exec';
+        let loggedInName = "Tamu Kehormatan";
+        let selectedStatus = "";
+
+        const myPlaylist = [
+            "https://files.catbox.moe/4vo3li.mp3",
+            "https://files.catbox.moe/liukic.mp3",
+            "https://files.catbox.moe/bwut9m.mp3"
+        ];
+
         const myImages = [
             "https://lh3.googleusercontent.com/d/1HR9NXSMe_8Wmqggt39hHmJBmhijHXDuf",
             "https://lh3.googleusercontent.com/d/10XUppKiWl2FnsZhFo5utgzdJtFdHhYwU",
@@ -326,41 +537,93 @@
             "https://lh3.googleusercontent.com/d/1ITQnaU-70qiZrMmMqkOpUwxL_QxaOow9"
         ];
 
-        // --- FUNGSI MENGAMBIL NAMA TAMU DARI URL (?to=nama+tamu) ---
         function getGuestNameFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             const rawTo = urlParams.get('to');
-            
             if (rawTo) {
-                // Ubah tanda plus (+) atau %20 menjadi spasi biasa
                 let cleanName = rawTo.replace(/\+/g, ' ');
                 cleanName = decodeURIComponent(cleanName);
-                
-                // Membuat huruf pertama kapital di setiap kata (Proper Case)
                 loggedInName = cleanName.split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1).toLowerCase()).join(' ');
                 
-                // Tempel nama ke elemen-elemen halaman
-                document.getElementById('guest-cover-name').innerText = loggedInName;
-                document.getElementById('personalized-inner-name').innerText = loggedInName;
+                const coverName = document.getElementById('guest-cover-name');
+                coverName.innerText = loggedInName;
+                coverName.style.fontFamily = "'Montserrat', sans-serif";
+                coverName.style.fontWeight = "700";
+                coverName.style.fontStyle = "normal";
+
+                const innerName = document.getElementById('personalized-inner-name');
+                innerName.innerText = loggedInName;
+                innerName.style.fontFamily = "'Montserrat', sans-serif";
+                innerName.style.fontWeight = "700";
+                innerName.style.fontStyle = "normal";
+
                 document.getElementById('guestName').value = loggedInName;
             }
         }
 
-        // --- SLIDESHOW RANDOM SUPER SMOOTH (5 DETIK) ---
         function startRandomSlideshow() {
             setInterval(() => {
-                const targetSlotNum = Math.floor(Math.random() * 3) + 1;
-                const imgElement = document.getElementById(`img${targetSlotNum}`);
-                
-                if (imgElement) {
-                    const randomSrc = myImages[Math.floor(Math.random() * myImages.length)];
-                    imgElement.style.opacity = 0;
-                    setTimeout(() => {
-                        imgElement.src = randomSrc;
-                        imgElement.style.opacity = 1;
-                    }, 1500); 
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    const imgElement = document.getElementById('img1');
+                    if (imgElement) {
+                        const randomSrc = myImages[Math.floor(Math.random() * myImages.length)];
+                        imgElement.style.opacity = 0;
+                        setTimeout(() => { imgElement.src = randomSrc; imgElement.style.opacity = 1; }, 800);
+                    }
+                } else {
+                    const targetSlotNum = Math.floor(Math.random() * 3) + 1;
+                    const imgElement = document.getElementById(`img${targetSlotNum}`);
+                    if (imgElement) {
+                        const randomSrc = myImages[Math.floor(Math.random() * myImages.length)];
+                        imgElement.style.opacity = 0;
+                        setTimeout(() => { imgElement.src = randomSrc; imgElement.style.opacity = 1; }, 800);
+                    }
                 }
             }, 5000);
+        }
+
+        function startCountdown() {
+            const targetDate = new Date('2026-07-17T09:00:00');
+            const pad = n => String(n).padStart(2, '0');
+            const tick = () => {
+                const diff = targetDate - new Date();
+                if (diff < 0) {
+                    ['hari','jam','menit','detik'].forEach(id => document.getElementById(id).innerText = '00');
+                    return;
+                }
+                document.getElementById('hari').innerText   = pad(Math.floor(diff / (1000*60*60*24)));
+                document.getElementById('jam').innerText    = pad(Math.floor((diff % (1000*60*60*24)) / (1000*60*60)));
+                document.getElementById('menit').innerText  = pad(Math.floor((diff % (1000*60*60)) / (1000*60)));
+                document.getElementById('detik').innerText  = pad(Math.floor((diff % (1000*60)) / 1000));
+            };
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        const bgMusic = document.getElementById('wedding-bg-music');
+        const musicBtn = document.getElementById('music-toggle-btn');
+
+        function setupRandomMusic() {
+            bgMusic.src = myPlaylist[Math.floor(Math.random() * myPlaylist.length)];
+            bgMusic.volume = 0.55;
+        }
+
+        musicBtn.addEventListener('click', () => {
+            if (bgMusic.paused) { bgMusic.play(); musicBtn.classList.add('playing'); }
+            else { bgMusic.pause(); musicBtn.classList.remove('playing'); }
+        });
+
+        function openInvitation() {
+            document.getElementById('opening-page').classList.add('hidden-up');
+            document.getElementById('main-content').classList.add('show-content');
+            window.scrollTo(0, 0);
+            setupRandomMusic();
+            musicBtn.style.display = 'flex';
+            bgMusic.play().then(() => musicBtn.classList.add('playing')).catch(() => {});
+            loadComments();
+            startRandomSlideshow();
+            startCountdown();
         }
 
         function toggleAnon() {
@@ -368,64 +631,207 @@
             cb.checked = !cb.checked;
         }
 
-        function openInvitation() {
-            document.getElementById('opening-page').classList.add('hidden-up');
-            document.getElementById('main-content').classList.add('show-content');
-            window.scrollTo(0, 0);
-            loadComments();
-            startRandomSlideshow();
+        function selectRsvp(status) {
+            selectedStatus = status;
+            const btnHadir = document.getElementById('btn-hadir');
+            const btnAbsen = document.getElementById('btn-absen');
+            const submitBtn = document.getElementById('submitRsvpBtn');
+
+            btnHadir.style.background = "transparent"; btnHadir.style.color = "var(--primary-gold)";
+            btnAbsen.style.background = "transparent"; btnAbsen.style.color = "var(--text-soft)";
+
+            if (status === 'Hadir') {
+                btnHadir.style.background = "var(--primary-gold)";
+                btnHadir.style.color = "white";
+            } else {
+                btnAbsen.style.background = "var(--text-soft)";
+                btnAbsen.style.color = "white";
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.style.background = "var(--primary-gold)";
+            submitBtn.style.color = "white";
+            submitBtn.style.cursor = "pointer";
         }
 
-        async function loadComments() {
+        // 1. PERBAIKAN FUNGSI RSVP (KOLOM E & F)
+async function submitRsvpToSheets() {
+    const submitBtn = document.getElementById('submitRsvpBtn');
+    if (!selectedStatus) return;
+
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Mengirim…";
+
+    const formData = new URLSearchParams();
+    formData.append('datatype', 'rsvp');
+    formData.append('rsvpName', loggedInName);
+    formData.append('rsvpStatus', selectedStatus);
+
+    try {
+        // Menambahkan mode: 'no-cors' agar tidak memicu error palsu di browser
+        await fetch(commentURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString()
+        });
+        
+        // Jika sampai di sini, langsung tampilkan pesan sukses
+        alert("Konfirmasi kehadiran Anda berhasil dikirim. Terima kasih! 🤍");
+    } catch (e) {
+        console.error(e);
+        alert("Gagal mengirim konfirmasi.");
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Kirim Konfirmasi";
+    }
+}
+
+// 2. PERBAIKAN FUNGSI BUKU TAMU / UCAPAN (KOLOM A & B)
+async function submitRsvpToSheets() {
+    const submitBtn = document.getElementById('submitRsvpBtn');
+    
+    // Validasi tambahan jika status belum dipilih atau user memaksa klik lewat konsol
+    if (!selectedStatus) return;
+    if (localStorage.getItem('rsvpDone_' + loggedInName)) {
+        alert("Anda sudah mengirim konfirmasi kehadiran sebelumnya.");
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Mengirim…";
+
+    const formData = new URLSearchParams();
+    formData.append('datatype', 'rsvp');
+    formData.append('rsvpName', loggedInName);
+    formData.append('rsvpStatus', selectedStatus);
+
+    try {
+        await fetch(commentURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString()
+        });
+        
+        // SIMPAN TANDA DI BROWSER TAMU BERDASARKAN NAMANYA
+        localStorage.setItem('rsvpDone_' + loggedInName, 'true');
+        
+        alert("Konfirmasi kehadiran Anda berhasil dikirim. Terima kasih! 🤍");
+        
+        // Kunci tombol langsung setelah sukses
+        checkExistingRsvp();
+        
+    } catch (e) {
+        console.error(e);
+        alert("Gagal mengirim konfirmasi.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Kirim Konfirmasi";
+    }
+}
+
+// GANTI JUGA FUNGSI UCAPAN LAMA DENGAN INI AGAR SERAGAM DAN AMAN
+async function submitToSheets() {
+    const btn = document.getElementById('submitBtn');
+    const comm = document.getElementById('guestComment');
+    const anon = document.getElementById('isAnonymous');
+    if (!comm.value.trim()) return alert("Silakan tulis ucapan Anda.");
+    
+    btn.disabled = true; 
+    btn.innerText = "Mengirim…";
+
+    const formData = new URLSearchParams();
+    formData.append('datatype', 'comment');
+    formData.append('name', loggedInName);
+    formData.append('comment', comm.value);
+    formData.append('isAnon', anon.checked);
+
+    try {
+        await fetch(commentURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString()
+        });
+        comm.value = ''; 
+        anon.checked = false;
+        loadComments();
+        alert("Terima kasih atas ucapan dan doa restunya 🤍");
+    } catch (e) {
+        console.error(e);
+        alert("Gagal mengirim ucapan.");
+    } finally {
+        btn.disabled = false; 
+        btn.innerText = "Kirim Ucapan";
+    }
+}
+
+        function renderComments(data) {
             const display = document.getElementById('commentDisplay');
-            try {
-                const response = await fetch(commentURL);
-                const data = await response.json();
-                display.innerHTML = '';
-                data.reverse().forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'comment-item';
-                    const displayName = (item.isAnon === true || item.isAnon === "true") ? 'Hamba Allah' : item.name;
-                    div.innerHTML = `<strong style="color:var(--primary-gold)">${displayName}</strong><p style="margin:5px 0 0 0;">${item.comment}</p>`;
-                    display.appendChild(div);
-                });
-            } catch (e) {
-                display.innerHTML = '<p style="text-align:center; color:red;">Gagal memuat ucapan.</p>';
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                display.innerHTML = '<p style="text-align:center; color:var(--text-soft); padding:20px; font-size:0.85rem; font-style:italic;">Belum ada ucapan.</p>';
+                return;
             }
+            display.innerHTML = '';
+            data.reverse().forEach(item => {
+                if (item.datatype === 'rsvp' || item.comment?.includes('[Konfirmasi Kehadiran:')) return;
+                const div = document.createElement('div');
+                div.className = 'comment-item';
+                const displayName = (item.isAnon === true || item.isAnon === "true") ? 'Hamba Allah' : item.name;
+                div.innerHTML = `<strong style="color:var(--primary-gold);font-size:0.8rem;letter-spacing:1px;">${displayName}</strong><p>${item.comment}</p>`;
+                display.appendChild(div);
+            });
+        }
+
+        function loadComments() {
+            const display = document.getElementById('commentDisplay');
+            display.innerHTML = '<p style="text-align:center; color:var(--text-soft); padding:20px; font-size:0.85rem; font-style:italic;">Memuat ucapan…</p>';
+
+            // Gunakan JSONP agar tidak terkena CORS block dari browser
+            const cbName = 'gasCallback_' + Date.now();
+            const script = document.createElement('script');
+            const timeout = setTimeout(() => {
+                display.innerHTML = '<p style="text-align:center; color:#c0a0a0; padding:20px; font-size:0.85rem; font-style:italic;">Gagal memuat ucapan.</p>';
+                delete window[cbName];
+                script.remove();
+            }, 10000);
+
+            window[cbName] = function(data) {
+                clearTimeout(timeout);
+                delete window[cbName];
+                script.remove();
+                renderComments(data);
+            };
+
+            script.src = commentURL + '?callback=' + cbName;
+            script.onerror = function() {
+                clearTimeout(timeout);
+                delete window[cbName];
+                display.innerHTML = '<p style="text-align:center; color:#c0a0a0; padding:20px; font-size:0.85rem; font-style:italic;">Gagal memuat ucapan.</p>';
+            };
+            document.head.appendChild(script);
         }
 
         async function submitToSheets() {
             const btn = document.getElementById('submitBtn');
             const comm = document.getElementById('guestComment');
             const anon = document.getElementById('isAnonymous');
-
-            if(!comm.value.trim()) return alert("Silakan tulis ucapan Anda.");
-            
-            btn.disabled = true;
-            btn.innerText = "Mengirim...";
-
+            if (!comm.value.trim()) return alert("Silakan tulis ucapan Anda.");
+            btn.disabled = true; btn.innerText = "Mengirim…";
             try {
                 await fetch(commentURL, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        name: loggedInName,
-                        comment: comm.value,
-                        isAnon: anon.checked
-                    })
+                    body: JSON.stringify({ datatype: 'comment', name: loggedInName, comment: comm.value, isAnon: anon.checked })
                 });
-                comm.value = '';
-                anon.checked = false;
+                comm.value = ''; anon.checked = false;
                 loadComments();
-                alert("Terima kasih atas ucapannya!");
+                alert("Terima kasih atas ucapan dan doa restunya 🤍");
             } catch (e) {
                 alert("Gagal mengirim ucapan.");
             } finally {
-                btn.disabled = false;
-                btn.innerText = "Kirim Ucapan";
+                btn.disabled = false; btn.innerText = "Kirim Ucapan";
             }
         }
 
-        // Jalankan fungsi pembaca URL saat halaman dimuat
         getGuestNameFromURL();
     </script>
 </body>
