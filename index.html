@@ -412,7 +412,7 @@
                         <p><strong>Resepsi:</strong> 10:00 - 12:00 WIB</p>
                     </div>
                     <p class="venue-name">Masjid Baitul Mu'alim</p>
-                    <p class="venue-address">Jl. Magetan Jalan-jalan, Jawa Timur</p>
+                    <p class="venue-address">Ds. Pelem Rt 22 Rw 04 Karangrejo Magetan</p>
                     <a href="https://maps.app.goo.gl/c6S1E2Xvej8BTPUy9" target="_blank" class="maps-link">Lihat Google Maps →</a>
                 </div>
             </div>
@@ -466,12 +466,12 @@
             <div class="gift-container">
                 <div class="gift-box">
                     <span class="bank-name">Bank BCA</span>
-                    <span class="acc-number">1234 567 890</span>
+                    <span class="acc-number">0375219633</span>
                     <span class="acc-name">a.n Denes</span>
                 </div>
                 <div class="gift-box">
-                    <span class="bank-name">Bank Mandiri</span>
-                    <span class="acc-number">0987 654 321</span>
+                    <span class="bank-name">Bank BRI</span>
+                    <span class="acc-number">635701000878505</span>
                     <span class="acc-name">a.n Ana</span>
                 </div>
             </div>
@@ -506,20 +506,20 @@
         </footer>
     </div>
 
-    <div style="display: none;">
-        <audio id="wedding-bg-music" loop></audio>
-    </div>
+    <audio id="wedding-bg-music" loop></audio>
     <button id="music-toggle-btn" class="music-btn">🎵</button>
 
     <script>
-        const commentURL = 'https://script.google.com/macros/s/AKfycbx1et6THRjuUEMETSlH0HfxedxdE5lgkJZ-omS-uKphdXCIxNA2QXCIat0BzwcYGfiT3A/exec';
+        // GANTI DI SINI JIKA WEB APP URL BERUBAH
+        const commentURL = 'https://script.google.com/macros/s/AKfycbx-A9WK4kwU3G9Qc_327er7pgLMeWOgkboXn0aekFB3zV2KlJfz3Ua4F0CPdDR9JzXCuw/exec';
         let loggedInName = "Tamu Kehormatan";
         let selectedStatus = "";
 
         const myPlaylist = [
-            "https://files.catbox.moe/4vo3li.mp3",
-            "https://files.catbox.moe/liukic.mp3",
-            "https://files.catbox.moe/bwut9m.mp3"
+            "https://files.catbox.moe/rv54zh.mp3",
+            "https://files.catbox.moe/wnyint.mp3",
+            "https://files.catbox.moe/9f2aem.mp3",
+			"https://files.catbox.moe/abei7t.mp3"
         ];
 
         const myImages = [
@@ -534,7 +534,6 @@
             "https://lh3.googleusercontent.com/d/1Sb7DC1FxPR6fYBV7hD6gC8AtlqIunwBp",
             "https://lh3.googleusercontent.com/d/1s4XAhBSd2437D5bxJGSEfmTVYK3eNEke",
             "https://lh3.googleusercontent.com/d/1nOLbmD3YYCLjx9O2ELS51vWmxXgRvXwa",
-            "https://lh3.googleusercontent.com/d/1ZQq_TpM4NyHKOMJ1nPSWq_ogJARKlb6q",
             "https://lh3.googleusercontent.com/d/1ITQnaU-70qiZrMmMqkOpUwxL_QxaOow9"
         ];
 
@@ -547,18 +546,13 @@
                 loggedInName = cleanName.split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1).toLowerCase()).join(' ');
                 
                 const coverName = document.getElementById('guest-cover-name');
-                coverName.innerText = loggedInName;
-                coverName.style.fontFamily = "'Montserrat', sans-serif";
-                coverName.style.fontWeight = "700";
-                coverName.style.fontStyle = "normal";
+                if (coverName) coverName.innerText = loggedInName;
 
                 const innerName = document.getElementById('personalized-inner-name');
-                innerName.innerText = loggedInName;
-                innerName.style.fontFamily = "'Montserrat', sans-serif";
-                innerName.style.fontWeight = "700";
-                innerName.style.fontStyle = "normal";
+                if (innerName) innerName.innerText = loggedInName;
 
-                document.getElementById('guestName').value = loggedInName;
+                const inputName = document.getElementById('guestName');
+                if (inputName) inputName.value = loggedInName;
             }
         }
 
@@ -590,13 +584,16 @@
             const tick = () => {
                 const diff = targetDate - new Date();
                 if (diff < 0) {
-                    ['hari','jam','menit','detik'].forEach(id => document.getElementById(id).innerText = '00');
+                    ['hari','jam','menit','detik'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.innerText = '00';
+                    });
                     return;
                 }
-                document.getElementById('hari').innerText   = pad(Math.floor(diff / (1000*60*60*24)));
-                document.getElementById('jam').innerText    = pad(Math.floor((diff % (1000*60*60*24)) / (1000*60*60)));
-                document.getElementById('menit').innerText  = pad(Math.floor((diff % (1000*60*60)) / (1000*60)));
-                document.getElementById('detik').innerText  = pad(Math.floor((diff % (1000*60)) / 1000));
+                const d = document.getElementById('hari');   if (d) d.innerText = pad(Math.floor(diff / (1000*60*60*24)));
+                const h = document.getElementById('jam');    if (h) h.innerText = pad(Math.floor((diff % (1000*60*60*24)) / (1000*60*60)));
+                const m = document.getElementById('menit');  if (m) m.innerText = pad(Math.floor((diff % (1000*60*60)) / (1000*60)));
+                const s = document.getElementById('detik');  if (s) s.innerText = pad(Math.floor((diff % (1000*60)) / 1000));
             };
             tick();
             setInterval(tick, 1000);
@@ -606,56 +603,17 @@
         const musicBtn = document.getElementById('music-toggle-btn');
 
         function setupRandomMusic() {
-            bgMusic.src = myPlaylist[Math.floor(Math.random() * myPlaylist.length)];
-            bgMusic.volume = 0.55;
-        }
-
-        musicBtn.addEventListener('click', () => {
-            if (bgMusic.paused) { bgMusic.play(); musicBtn.classList.add('playing'); }
-            else { bgMusic.pause(); musicBtn.classList.remove('playing'); }
-        });
-
-        function openInvitation() {
-            document.getElementById('opening-page').classList.add('hidden-up');
-            document.getElementById('main-content').classList.add('show-content');
-            window.scrollTo(0, 0);
-            setupRandomMusic();
-            musicBtn.style.display = 'flex';
-            bgMusic.play().then(() => musicBtn.classList.add('playing')).catch(() => {});
-            loadComments();
-            startRandomSlideshow();
-            startCountdown();
-            checkExistingRsvp();
-        }
-
-        function toggleAnon() {
-            const cb = document.getElementById('isAnonymous');
-            cb.checked = !cb.checked;
-        }
-
-        function selectRsvp(status) {
-            if (localStorage.getItem('rsvpDone_' + loggedInName) === 'true') return;
-            
-            selectedStatus = status;
-            const btnHadir = document.getElementById('btn-hadir');
-            const btnAbsen = document.getElementById('btn-absen');
-            const submitBtn = document.getElementById('submitRsvpBtn');
-
-            btnHadir.style.background = "transparent"; btnHadir.style.color = "var(--primary-gold)";
-            btnAbsen.style.background = "transparent"; btnAbsen.style.color = "var(--text-soft)";
-
-            if (status === 'Hadir') {
-                btnHadir.style.background = "var(--primary-gold)";
-                btnHadir.style.color = "white";
-            } else {
-                btnAbsen.style.background = "var(--text-soft)";
-                btnAbsen.style.color = "white";
+            if (bgMusic) {
+                bgMusic.src = myPlaylist[Math.floor(Math.random() * myPlaylist.length)];
+                bgMusic.volume = 0.55;
             }
+        }
 
-            submitBtn.disabled = false;
-            submitBtn.style.background = "var(--primary-gold)";
-            submitBtn.style.color = "white";
-            submitBtn.style.cursor = "pointer";
+        if (musicBtn) {
+            musicBtn.addEventListener('click', () => {
+                if (bgMusic.paused) { bgMusic.play(); musicBtn.classList.add('playing'); }
+                else { bgMusic.pause(); musicBtn.classList.remove('playing'); }
+            });
         }
 
         function checkExistingRsvp() {
@@ -676,18 +634,63 @@
             }
         }
 
+        function openInvitation() {
+            document.getElementById('opening-page').classList.add('hidden-up');
+            document.getElementById('main-content').classList.add('show-content');
+            window.scrollTo(0, 0);
+            setupRandomMusic();
+            if (musicBtn) musicBtn.style.display = 'flex';
+            if (bgMusic) bgMusic.play().then(() => musicBtn.classList.add('playing')).catch(() => {});
+            loadComments();
+            startRandomSlideshow();
+            startCountdown();
+            checkExistingRsvp();
+        }
+
+        function toggleAnon() {
+            const cb = document.getElementById('isAnonymous');
+            if (cb) cb.checked = !cb.checked;
+        }
+
+        function selectRsvp(status) {
+            if (localStorage.getItem('rsvpDone_' + loggedInName) === 'true') return;
+            
+            selectedStatus = status;
+            const btnHadir = document.getElementById('btn-hadir');
+            const btnAbsen = document.getElementById('btn-absen');
+            const submitBtn = document.getElementById('submitRsvpBtn');
+
+            if (btnHadir) { btnHadir.style.background = "transparent"; btnHadir.style.color = "var(--primary-gold)"; }
+            if (btnAbsen) { btnAbsen.style.background = "transparent"; btnAbsen.style.color = "var(--text-soft)"; }
+
+            if (status === 'Hadir' && btnHadir) {
+                btnHadir.style.background = "var(--primary-gold)";
+                btnHadir.style.color = "white";
+            } else if (status === 'Tidak Hadir' && btnAbsen) {
+                btnAbsen.style.background = "var(--text-soft)";
+                btnAbsen.style.color = "white";
+            }
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.background = "var(--primary-gold)";
+                submitBtn.style.color = "white";
+                submitBtn.style.cursor = "pointer";
+            }
+        }
+
         async function submitRsvpToSheets() {
             const submitBtn = document.getElementById('submitRsvpBtn');
-            
             if (!selectedStatus) return;
             if (localStorage.getItem('rsvpDone_' + loggedInName) === 'true') {
                 alert("Anda sudah mengirim konfirmasi kehadiran sebelumnya.");
                 return;
             }
-
+            
             submitBtn.disabled = true;
             submitBtn.innerText = "Mengirim…";
 
+            // Menggunakan format URLSearchParams agar cocok dengan penanganan Web App
             const formData = new URLSearchParams();
             formData.append('datatype', 'rsvp');
             formData.append('rsvpName', loggedInName);
@@ -700,7 +703,6 @@
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: formData.toString()
                 });
-                
                 localStorage.setItem('rsvpDone_' + loggedInName, 'true');
                 alert("Konfirmasi kehadiran Anda berhasil dikirim. Terima kasih! 🤍");
                 checkExistingRsvp();
@@ -709,42 +711,6 @@
                 alert("Gagal mengirim konfirmasi.");
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Kirim Konfirmasi";
-            }
-        }
-
-        async function submitToSheets() {
-            const btn = document.getElementById('submitBtn');
-            const comm = document.getElementById('guestComment');
-            const anon = document.getElementById('isAnonymous');
-            if (!comm.value.trim()) return alert("Silakan tulis ucapan Anda.");
-            
-            btn.disabled = true; 
-            btn.innerText = "Mengirim…";
-
-            const formData = new URLSearchParams();
-            formData.append('datatype', 'comment');
-            formData.append('name', loggedInName);
-            formData.append('comment', comm.value);
-            formData.append('isAnon', anon.checked);
-
-            try {
-                await fetch(commentURL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formData.toString()
-                });
-                
-                comm.value = ''; 
-                anon.checked = false;
-                loadComments();
-                alert("Terima kasih atas ucapan dan doa restunya 🤍");
-            } catch (e) {
-                console.error(e);
-                alert("Gagal mengirim ucapan.");
-            } finally {
-                btn.disabled = false; 
-                btn.innerText = "Kirim Ucapan";
             }
         }
 
@@ -767,12 +733,12 @@
 
         function loadComments() {
             const display = document.getElementById('commentDisplay');
-            display.innerHTML = '<p style="text-align:center; color:var(--text-soft); padding:20px; font-size:0.85rem; font-style:italic;">Memuat ucapan…</p>';
+            if (display) display.innerHTML = '<p style="text-align:center; color:var(--text-soft); padding:20px; font-size:0.85rem; font-style:italic;">Memuat ucapan…</p>';
 
             const cbName = 'gasCallback_' + Date.now();
             const script = document.createElement('script');
             const timeout = setTimeout(() => {
-                display.innerHTML = '<p style="text-align:center; color:#c0a0a0; padding:20px; font-size:0.85rem; font-style:italic;">Gagal memuat ucapan.</p>';
+                if (display) display.innerHTML = '<p style="text-align:center; color:#c0a0a0; padding:20px; font-size:0.85rem; font-style:italic;">Gagal memuat ucapan.</p>';
                 delete window[cbName];
                 script.remove();
             }, 10000);
@@ -788,9 +754,47 @@
             script.onerror = function() {
                 clearTimeout(timeout);
                 delete window[cbName];
-                display.innerHTML = '<p style="text-align:center; color:#c0a0a0; padding:20px; font-size:0.85rem; font-style:italic;">Gagal memuat ucapan.</p>';
+                if (display) display.innerHTML = '<p style="text-align:center; color:#c0a0a0; padding:20px; font-size:0.85rem; font-style:italic;">Gagal memuat ucapan.</p>';
             };
             document.head.appendChild(script);
+        }
+
+        async function submitToSheets() {
+            const btn = document.getElementById('submitBtn');
+            const comm = document.getElementById('guestComment');
+            const anon = document.getElementById('isAnonymous');
+            if (!comm || !comm.value.trim()) return alert("Silakan tulis ucapan Anda.");
+            
+            btn.disabled = true; 
+            btn.innerText = "Mengirim…";
+
+            // Menggunakan format URLSearchParams agar seragam
+            const formData = new URLSearchParams();
+            formData.append('datatype', 'comment');
+            formData.append('name', loggedInName);
+            formData.append('comment', comm.value);
+            formData.append('isAnon', anon ? anon.checked : false);
+
+            try {
+                await fetch(commentURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                });
+                if (comm) comm.value = ''; 
+                if (anon) anon.checked = false;
+                loadComments();
+                alert("Terima kasih atas ucapan dan doa restunya 🤍");
+            } catch (e) {
+                console.error(e);
+                alert("Gagal mengirim ucapan.");
+            } finally {
+                if (btn) {
+                    btn.disabled = false; 
+                    btn.innerText = "Kirim Ucapan";
+                }
+            }
         }
 
         getGuestNameFromURL();
