@@ -33,6 +33,12 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* ── VINTAGE DOT PATTERN BACKGROUND ── */
+        body {
+            background-image: radial-gradient(var(--border-gold) 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+
         /* ── COVER ── */
         #opening-page {
             height: 100vh; width: 100%;
@@ -105,7 +111,10 @@
         section {
             padding: 80px 24px; max-width: 900px;
             margin: auto; text-align: center;
+            position: relative; /* Diperlukan untuk ornamen bunga */
         }
+
+        
 
         /* ── TYPOGRAPHY ── */
         .section-eyebrow {
@@ -160,23 +169,90 @@
             text-transform: uppercase;
         }
 
-        /* ── GALERI ── */
-        .gallery-container {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 14px; margin-top: 36px;
+        /* ── BINGKAI FOTO ESTETIK ── */
+.gallery-container {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; 
+    margin-top: 36px;
+    position: relative;
+    padding: 30px;
+    border-radius: 40px;
+}
+
+.gallery-item {
+    width: 100%;
+    /* Menjaga bentuk kapsul dengan perbandingan tinggi yang cukup */
+    aspect-ratio: 9 / 16; 
+    object-fit: cover;
+    /* border-radius 999px menjamin sisi atas/bawah selalu melingkar sempurna */
+    border-radius: 999px !important; 
+    border: 6px double var(--primary-gold) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: block;
+}
+
+/* Penyesuaian untuk tampilan Mobile */
+@media (max-width: 768px) {
+    .gallery-container {
+        display: flex; 
+        justify-content: center;
+        width: 100%;
+    }
+    #img2, #img3 { display: none !important; }
+    #img1 {
+        width: 80%;
+        max-width: 320px;
+        aspect-ratio: 9 / 16;
+        /* Memastikan tetap kapsul di mobile */
+        border-radius: 100px !important; 
+    }
+}
+
+        /* Ornamen Corner / Sudut Bingkai Galeri */
+        .gallery-container::before, .gallery-container::after {
+            content: '✧'; position: absolute; color: var(--primary-gold); font-size: 1.5rem;
         }
-        .gallery-item {
-            width: 100%; height: 280px; object-fit: cover;
-            border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.07);
-            transition: opacity 0.8s ease-in-out; opacity: 1;
-        }
+        .gallery-container::before { top: 10px; right: 15px; }
+        .gallery-container::after { bottom: 10px; left: 15px; }
+
+        /* ── BINGKAI FOTO ESTETIK (PERSEGI PANJANG DENGAN UJUNG MELENGKUNG) ── */
+./* Memastikan semua mode (Mobile & Desktop) mengikuti bentuk yang sama */
+.gallery-item {
+    border-radius: 140px !important;
+    overflow: hidden;
+    border: 4px solid var(--primary-gold) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+    width: 100%;
+    object-fit: cover;
+}
+
+@media(min-width:769px){
+    .gallery-item { height: 420px; }
+}
+
+@media(max-width:768px){
+    #img1 { 
+        height: 350px !important; /* Memberikan tinggi tetap agar bentuk kapsul terjaga */
+    }
+}
 
         /* ── CARD ── */
         .card {
             background: white; padding: 50px 40px; border-radius: 30px;
             box-shadow: 0 12px 40px rgba(0,0,0,0.03);
             border: 1px solid var(--border-gold); margin-top: 24px;
+            position: relative;
         }
+        .card::before {
+            content: ''; position: absolute; top: 15px; left: 15px; width: 30px; height: 30px;
+            border-top: 2px solid var(--primary-gold); border-left: 2px solid var(--primary-gold);
+        }
+        .card::after {
+            content: ''; position: absolute; bottom: 15px; right: 15px; width: 30px; height: 30px;
+            border-bottom: 2px solid var(--primary-gold); border-right: 2px solid var(--primary-gold);
+        }
+
         .card .body-text-lead {
             font-size: 0.92rem; color: var(--text-mid); font-weight: 400; margin-bottom: 20px;
         }
@@ -222,29 +298,47 @@
         }
         .maps-link:hover { background: var(--primary-gold); color: white; }
 
-        /* ── COUNTDOWN TIMER ── */
-        .countdown-wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
+        /* Countdown Wrapper */
+.timer-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 36px 0 28px;
+    flex-wrap: wrap; /* Mengizinkan pindah baris */
+}
 
-        .timer-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin: 36px 0 28px;
-            flex-wrap: wrap;
-        }
+/* Mengatur agar per kotak punya basis lebar */
+.timer-box {
+    background: white;
+    width: 80px; /* Lebar default */
+    height: 90px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(197,160,89,0.1);
+    border: 1px solid var(--border-gold);
+}
 
-        .timer-box {
-            background: white; width: 88px; height: 96px;
-            border-radius: 16px; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            box-shadow: 0 4px 20px rgba(197,160,89,0.1);
-            border: 1px solid var(--border-gold);
-        }
+/* Khusus Mobile: 2 baris */
+@media (max-width: 768px) {
+    .timer-wrapper {
+        gap: 20px;
+        max-width: 250px; /* Membatasi lebar agar pas 2x2 */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .timer-separator {
+        display: none; /* Sembunyikan titik di antara angka pada mobile */
+    }
+    
+    .timer-box {
+        width: 45%; /* Membuat 2 kotak per baris */
+    }
+}
 
         .timer-number {
             font-family: 'Playfair Display', serif; font-size: 2.2rem;
@@ -252,7 +346,7 @@
         }
 
         .timer-label {
-            font-family: 'Montserrat', sans-serif; font-size: 0.65rem;
+            font-family: 'Montserrat', font-size: 0.65rem;
             color: var(--text-soft); margin-top: 8px; font-weight: 400;
             letter-spacing: 2px; text-transform: uppercase;
         }
@@ -268,11 +362,32 @@
             letter-spacing: 0.3px;
         }
 
-        /* ── GIFT ── */
-        .gift-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 28px; }
+        /* ── VINTAGE RECTANGULAR GIFT BOX ── */
+        .gift-container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 20px; 
+            margin-top: 28px; 
+        }
         .gift-box { 
-            border: 1px solid var(--border-gold); padding: 26px 30px;
-            border-radius: 16px; background: white; min-width: 210px; text-align: center;
+            border: 2px double var(--primary-gold); 
+            padding: 30px;
+            border-radius: 20px; 
+            background: #fff; 
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(197,160,89,0.15);
+            position: relative;
+        }
+        .gift-box::after {
+            content: '✧';
+            color: var(--primary-gold);
+            display: block;
+            margin-top: 15px;
+            font-size: 1.2rem;
         }
         .bank-name {
             font-weight: 600; font-size: 0.75rem; color: var(--primary-gold);
@@ -341,12 +456,13 @@
             .gallery-container {
                 display: flex; justify-content: center;
                 align-items: center; margin-top: 30px; width: 100%;
+                padding: 20px 0;
             }
             #img2, #img3 { display: none !important; }
             #img1 {
                 display: block !important; width: 85%; max-width: 290px;
                 height: auto; aspect-ratio: 9 / 16; object-fit: cover;
-                border-radius: 140px; border: 3px solid var(--primary-gold);
+                border-radius: 20px !important;
                 box-shadow: 0 12px 28px rgba(0,0,0,0.12);
             }
             .timer-box { width: 72px; height: 80px; }
@@ -355,10 +471,433 @@
             .scripture { max-width: 95%; padding: 20px 0; }
             .card { padding: 36px 20px; }
             .comment-section { padding: 28px 20px; }
+            
+            /* Penyesuaian ornamen mobile agar tidak terlalu padat */
+            
+            
         }
-    </style>
+    
+        /* ===== SECTION TRANSITIONS ===== */
+        .fade-section {
+            opacity:0;
+            transform:translateY(40px);
+            transition:opacity 1s ease,transform 1s ease;
+        }
+        .fade-section.visible {
+            opacity:1;
+            transform:translateY(0);
+        }
+
+        @media(min-width:769px){
+            .gallery-item { height:420px; }
+        }
+
+    
+/* ==== PATCH VINTAGE FRAME ==== */
+.gallery-item{
+    border-radius:999px !important;
+    overflow:hidden;
+    transition:opacity .8s ease, transform .8s ease !important;
+}
+@media(max-width:768px){
+    #img1{
+        width:92% !important;
+        max-width:340px !important;
+        aspect-ratio:9/16 !important;
+        height:auto !important;
+        object-fit:cover !important;
+        border-radius:180px !important;
+    }
+}
+.gallery-container{
+    background:radial-gradient(circle at center, rgba(197,160,89,.08), transparent 70%);
+}
+.gallery-container::before,
+.gallery-container::after{
+    width:120px !important;
+    height:120px !important;
+}
+
+
+/* ==== FINAL MOBILE FRAME FIX ==== */
+@media (max-width:768px){
+
+    .gallery-container{
+        padding:8px !important;
+    }
+
+    #img1{
+        width:92% !important;
+        max-width:340px !important;
+        aspect-ratio:9/16 !important;
+        height:auto !important;
+        object-fit:cover !important;
+
+        border-radius:180px !important;
+    }
+
+    .gallery-item{
+        border-radius:180px !important;
+    }
+}
+
+
+/* ===== PREMIUM FRAME ORNAMENT (PRIORITAS) ===== */
+.gallery-container{
+    position:relative !important;
+}
+
+.gallery-item{
+    position:relative;
+    transition:opacity .8s ease, transform .8s ease !important;
+}
+
+.gallery-container::before{
+    content:'' !important;
+    position:absolute !important;
+    top:25px !important;
+    left:50% !important;
+    transform:translateX(-180px) !important;
+    width:90px !important;
+    height:90px !important;
+    display:none;
+    opacity:.45 !important;
+    z-index:10 !important;
+}
+
+.gallery-container::after{
+    content:'' !important;
+    position:absolute !important;
+    bottom:25px !important;
+    left:50% !important;
+    transform:translateX(90px) rotate(180deg) !important;
+    width:90px !important;
+    height:90px !important;
+    display:none;
+    opacity:.45 !important;
+    z-index:10 !important;
+}
+
+.gallery-item::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to bottom,
+        rgba(212,176,122,.08),
+        rgba(212,176,122,.02)
+    );
+    pointer-events:none;
+}
+
+/* MOBILE ORNAMENT MENEMPEL KE FRAME */
+@media(max-width:768px){
+
+    .gallery-container::before{
+        top:10px !important;
+        left:50% !important;
+        transform:translateX(-150px) !important;
+        width:70px !important;
+        height:70px !important;
+    }
+
+    .gallery-container::after{
+        bottom:10px !important;
+        left:50% !important;
+        transform:translateX(80px) rotate(180deg) !important;
+        width:70px !important;
+        height:70px !important;
+    }
+}
+
+
+/* ==== FLORAL WEDDING ORNAMENT ==== */
+.gallery-container::before,
+.gallery-container::after{
+    opacity: .35 !important;
+    filter:
+        sepia(100%)
+        saturate(250%)
+        hue-rotate(345deg)
+        brightness(1.05);
+}
+
+@media(max-width:768px){
+    .gallery-container::before,
+    .gallery-container::after{
+        width:60px !important;
+        height:60px !important;
+        opacity:.30 !important;
+    }
+}
+
+
+/* ═══════════════════════════════════════
+           ORNAMEN DEKORATIF - SELURUH HALAMAN
+        ═══════════════════════════════════════ */
+
+        /* Fixed ornamen sudut halaman (semua mode) */
+        .page-corner-ornament {
+            position: fixed;
+            width: 180px;
+            height: 180px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.18;
+        }
+        .page-corner-ornament.top-left  { top: 0; left: 0; transform: rotate(0deg); }
+        .page-corner-ornament.top-right { top: 0; right: 0; transform: rotate(90deg); }
+
+        /* Ornamen section separator (bunga garis tengah) */
+        .section-ornament {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 16px;
+            display: block;
+            opacity: 0.55;
+            pointer-events: none;
+        }
+        .section-ornament-sm {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        /* Ornamen floating sudut section intro */
+        #intro { position: relative; overflow: visible; }
+        .intro-ornament-left {
+            position: absolute;
+            left: -20px; top: 40px;
+            width: 120px; opacity: 0.22;
+            pointer-events: none;
+        }
+        .intro-ornament-right {
+            position: absolute;
+            right: -20px; top: 40px;
+            width: 120px; opacity: 0.22;
+            transform: scaleX(-1);
+            pointer-events: none;
+        }
+
+        /* Gallery wrapper dengan ornamen */
+        .gallery-outer {
+            position: relative;
+            padding: 20px 0 28px;
+        }
+        .gallery-ornament-top {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 16px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .gallery-ornament-bottom {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+            margin: 16px auto 0;
+            opacity: 0.5;
+            transform: rotate(180deg);
+            pointer-events: none;
+        }
+
+        /* Ornamen foto portrait mobile */
+        .photo-ornament-wrapper { display: contents; }
+        .ornamen-kiri, .ornamen-kanan, .ornamen-atas, .ornamen-bawah { display: none; }
+
+        /* Ornamen di section gift */
+        #gift { position: relative; overflow: visible; }
+        .gift-ornament {
+            display: block;
+            max-width: 260px;
+            margin: 24px auto 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* Ornamen footer */
+        footer { position: relative; }
+        .footer-ornament {
+            display: block;
+            max-width: 320px;
+            margin: 0 auto 20px;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        /* MOBILE overrides */
+        @media (max-width: 768px) {
+            .page-corner-ornament { width: 100px; height: 100px; opacity: 0.12; }
+            .intro-ornament-left, .intro-ornament-right { display: none; }
+
+            /* Galeri: hanya 1 foto portrait dengan ornamen samping */
+            .gallery-container {
+                display: flex; justify-content: center;
+                align-items: center; margin-top: 10px; width: 100%;
+            }
+            #img2, #img3 { display: none !important; }
+            #img1 {
+                display: block !important;
+                width: 220px; height: auto;
+                aspect-ratio: 9 / 16; object-fit: cover;
+                border-radius: 140px;
+                border: 3px solid var(--primary-gold);
+                box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+                position: relative; z-index: 2;
+            }
+            .photo-ornament-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                width: 100%;
+                padding: 20px 0 24px;
+            }
+            .ornamen-kiri {
+                display: block;
+                position: absolute;
+                left: calc(50% - 175px);
+                top: 50%; transform: translateY(-50%);
+                width: 85px; height: 270px;
+                z-index: 1; pointer-events: none; opacity: 0.82;
+            }
+            .ornamen-kanan {
+                display: block;
+                position: absolute;
+                right: calc(50% - 175px);
+                top: 50%; transform: translateY(-50%) scaleX(-1);
+                width: 85px; height: 270px;
+                z-index: 1; pointer-events: none; opacity: 0.82;
+            }
+            .ornamen-atas {
+                display: block;
+                position: absolute;
+                top: 2px; left: 50%;
+                transform: translateX(-50%);
+                width: 150px; z-index: 3;
+                pointer-events: none; opacity: 0.78;
+            }
+            .ornamen-bawah {
+                display: block;
+                position: absolute;
+                bottom: 2px; left: 50%;
+                transform: translateX(-50%) rotate(180deg);
+                width: 150px; z-index: 3;
+                pointer-events: none; opacity: 0.78;
+            }
+            .timer-box { width: 72px; height: 80px; }
+            .timer-number { font-size: 1.8rem; }
+            .timer-separator { font-size: 1.4rem; }
+            .scripture { max-width: 95%; padding: 20px 0; }
+            .card { padding: 36px 20px; }
+            .comment-section { padding: 28px 20px; }
+        }
+    
+    
+/* ── SIMPLIFY MOBILE PHOTO ORNAMENTS ── */
+@media (max-width: 768px) {
+    /* Sembunyikan ornamen sulur kiri/kanan yang terlalu ramai */
+    .ornamen-kiri, .ornamen-kanan { display: none !important; }
+
+    /* Ornamen atas foto: garis lengkung simpel */
+    .ornamen-atas {
+        display: block !important;
+        position: absolute !important;
+        top: 4px !important; left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 120px !important;
+        height: 28px !important;
+        opacity: 0.55 !important;
+        z-index: 3 !important;
+        pointer-events: none !important;
+    }
+
+    /* Ornamen bawah foto: garis lengkung simpel */
+    .ornamen-bawah {
+        display: block !important;
+        position: absolute !important;
+        bottom: 4px !important; left: 50% !important;
+        transform: translateX(-50%) rotate(180deg) !important;
+        width: 120px !important;
+        height: 28px !important;
+        opacity: 0.55 !important;
+        z-index: 3 !important;
+        pointer-events: none !important;
+    }
+
+    /* Frame foto — bersih, hanya 2 ring */
+    #img1 {
+        box-shadow:
+            0 0 0 3px var(--bg-light),
+            0 0 0 5px rgba(197,160,89,0.55),
+            0 14px 32px rgba(0,0,0,0.12) !important;
+    }
+}
+
+
+/* ── PERKUAT VISIBILITAS ORNAMEN ── */
+img.gallery-ornament-top,
+img.gallery-ornament-bottom,
+img.section-ornament,
+img.gift-ornament,
+img.footer-ornament {
+    opacity: 0.75 !important;
+    filter: contrast(1.1) saturate(1.15) !important;
+}
+img.intro-ornament-left,
+img.intro-ornament-right {
+    opacity: 0.35 !important;
+}
+img.page-corner-ornament {
+    opacity: 0.28 !important;
+}
+img.ornamen-atas,
+img.ornamen-bawah {
+    opacity: 0.8 !important;
+}
+
+/* Mobile: sembunyikan gallery-ornament-top/bottom, cukup ornamen-atas/bawah */
+@media (max-width: 768px) {
+    img.gallery-ornament-top,
+    img.gallery-ornament-bottom { display: none !important; }
+    img.ornamen-atas,
+    img.ornamen-bawah { opacity: 0.85 !important; }
+    img.intro-ornament-left,
+    img.intro-ornament-right { display: none !important; }
+}
+
+
+/* ── FIX: Pastikan tidak ada double ornamen di mobile ── */
+@media (max-width: 768px) {
+    /* gallery-ornament top/bottom hanya untuk desktop, sembunyikan di mobile */
+    img.gallery-ornament-top  { display: none !important; }
+    img.gallery-ornament-bottom { display: none !important; }
+    
+    /* section-ornament (separator antar section) juga hide di mobile, biar clean */
+    .section-ornament-div { display: none !important; }
+    
+    /* Ornamen bawah gift: hide di mobile cukup dari divider */
+    img.gift-ornament { display: none !important; }
+    
+    /* Perkecil ornamen-atas/bawah agar tidak terlalu besar */  
+    img.ornamen-atas,
+    img.ornamen-bawah {
+        width: 100px !important;
+        opacity: 0.65 !important;
+    }
+}
+
+</style>
 </head>
 <body>
+
+    <!-- Ornamen sudut halaman fixed -->
+    <img class="page-corner-ornament top-left"  src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20180%20180%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%200%20Q40%200%200%2040%22%20stroke-width%3D%221.5%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%200%20L0%20160%20Q0%20180%2020%20180%22%20stroke-width%3D%221.2%22%20stroke-opacity%3D%220.4%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%200%20L160%200%20Q180%200%20180%2020%22%20stroke-width%3D%221.2%22%20stroke-opacity%3D%220.4%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M8%208%20Q60%208%208%2060%22%20stroke-width%3D%221%22%20stroke-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3C%21--%20sulur%201%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2030%20Q20%2028%2028%2010%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2060%20Q30%2055%2040%2030%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2090%20Q35%2082%2050%2055%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M30%200%20Q28%2020%2010%2028%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M60%200%20Q55%2030%2030%2040%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M90%200%20Q82%2035%2055%2050%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3C%21--%20daun%20--%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2228%22%20cy%3D%2210%22%20rx%3D%229%22%20ry%3D%224%22%20transform%3D%22rotate%28-45%2028%2010%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.2%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2240%22%20cy%3D%2230%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%28-40%2040%2030%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2250%22%20cy%3D%2255%22%20rx%3D%2211%22%20ry%3D%224.5%22%20transform%3D%22rotate%28-38%2050%2055%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2210%22%20cy%3D%2228%22%20rx%3D%224%22%20ry%3D%229%22%20transform%3D%22rotate%28-45%2010%2028%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.2%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2230%22%20cy%3D%2240%22%20rx%3D%224%22%20ry%3D%2210%22%20transform%3D%22rotate%28-50%2030%2040%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2255%22%20cy%3D%2250%22%20rx%3D%224.5%22%20ry%3D%2211%22%20transform%3D%22rotate%28-52%2055%2050%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20pojok%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%228%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%2214%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.2%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%225%22%20cy%3D%227%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2223%22%20cy%3D%227%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%225%22%20cy%3D%2221%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2223%22%20cy%3D%2221%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3C%21--%20dot%20kecil%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2270%22%20cy%3D%2212%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2290%22%20cy%3D%228%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2212%22%20cy%3D%2270%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%228%22%20%20cy%3D%2290%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
+    <img class="page-corner-ornament top-right" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20180%20180%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%200%20Q40%200%200%2040%22%20stroke-width%3D%221.5%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%200%20L0%20160%20Q0%20180%2020%20180%22%20stroke-width%3D%221.2%22%20stroke-opacity%3D%220.4%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%200%20L160%200%20Q180%200%20180%2020%22%20stroke-width%3D%221.2%22%20stroke-opacity%3D%220.4%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M8%208%20Q60%208%208%2060%22%20stroke-width%3D%221%22%20stroke-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3C%21--%20sulur%201%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2030%20Q20%2028%2028%2010%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2060%20Q30%2055%2040%2030%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2090%20Q35%2082%2050%2055%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M30%200%20Q28%2020%2010%2028%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M60%200%20Q55%2030%2030%2040%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M90%200%20Q82%2035%2055%2050%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3C%21--%20daun%20--%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2228%22%20cy%3D%2210%22%20rx%3D%229%22%20ry%3D%224%22%20transform%3D%22rotate%28-45%2028%2010%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.2%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2240%22%20cy%3D%2230%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%28-40%2040%2030%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2250%22%20cy%3D%2255%22%20rx%3D%2211%22%20ry%3D%224.5%22%20transform%3D%22rotate%28-38%2050%2055%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2210%22%20cy%3D%2228%22%20rx%3D%224%22%20ry%3D%229%22%20transform%3D%22rotate%28-45%2010%2028%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.2%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2230%22%20cy%3D%2240%22%20rx%3D%224%22%20ry%3D%2210%22%20transform%3D%22rotate%28-50%2030%2040%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2255%22%20cy%3D%2250%22%20rx%3D%224.5%22%20ry%3D%2211%22%20transform%3D%22rotate%28-52%2055%2050%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20pojok%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%228%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%2214%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.2%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%225%22%20cy%3D%227%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2223%22%20cy%3D%227%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%225%22%20cy%3D%2221%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2223%22%20cy%3D%2221%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3C%21--%20dot%20kecil%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2270%22%20cy%3D%2212%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2290%22%20cy%3D%228%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2212%22%20cy%3D%2270%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%228%22%20%20cy%3D%2290%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
 
     <div id="opening-page">
         <p class="cover-label">The Wedding Of</p>
@@ -372,6 +911,8 @@
     <div id="main-content">
 
         <section id="intro">
+            <img class="intro-ornament-left"  src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20320%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%20stroke-width%3D%221.2%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M75%20315%20Q70%20275%2074%20238%20Q78%20200%2068%20168%20Q58%20136%2064%20104%20Q68%2076%2062%2048%20Q58%2026%2062%206%22%20stroke-width%3D%221.6%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M72%20255%20Q50%20240%2026%20245%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M70%20210%20Q46%20194%2020%20198%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M68%20168%20Q48%20152%2024%20156%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M66%20128%20Q48%20114%2026%20117%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M74%20235%20Q94%20222%20108%20226%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M72%20192%20Q90%20180%20102%20183%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2222%22%20cy%3D%22245%22%20rx%3D%2213%22%20ry%3D%225.5%22%20transform%3D%22rotate%28-22%2022%20245%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.2%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2216%22%20cy%3D%22198%22%20rx%3D%2212%22%20ry%3D%225%22%20transform%3D%22rotate%28-28%2016%20198%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2219%22%20cy%3D%22156%22%20rx%3D%2211%22%20ry%3D%224.5%22%20transform%3D%22rotate%28-24%2019%20156%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.17%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2221%22%20cy%3D%22117%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%28-20%2021%20117%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%22110%22%20cy%3D%22226%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%2816%20110%20226%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%22104%22%20cy%3D%22183%22%20rx%3D%229%22%20ry%3D%223.8%22%20transform%3D%22rotate%2820%20104%20183%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.15%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20atas%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2262%22%20cy%3D%226%22%20%20r%3D%226%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.34%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.9%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2262%22%20cy%3D%226%22%20%20r%3D%2211%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.22%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2252%22%20cy%3D%22-1%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2272%22%20cy%3D%22-1%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2252%22%20cy%3D%2213%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2272%22%20cy%3D%2213%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22156%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2210%22%20cy%3D%22150%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22148%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2226%22%20cy%3D%22152%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2242%22%20cy%3D%2288%22%20%20r%3D%222%22%20%20%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.42%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2286%22%20cy%3D%2278%22%20%20r%3D%221.8%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.36%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2238%22%20cy%3D%2258%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2282%22%20cy%3D%2244%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2244%22%20cy%3D%2230%22%20%20r%3D%221.2%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.26%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
+            <img class="intro-ornament-right" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20320%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%20stroke-width%3D%221.2%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M75%20315%20Q70%20275%2074%20238%20Q78%20200%2068%20168%20Q58%20136%2064%20104%20Q68%2076%2062%2048%20Q58%2026%2062%206%22%20stroke-width%3D%221.6%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M72%20255%20Q50%20240%2026%20245%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M70%20210%20Q46%20194%2020%20198%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M68%20168%20Q48%20152%2024%20156%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M66%20128%20Q48%20114%2026%20117%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M74%20235%20Q94%20222%20108%20226%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M72%20192%20Q90%20180%20102%20183%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2222%22%20cy%3D%22245%22%20rx%3D%2213%22%20ry%3D%225.5%22%20transform%3D%22rotate%28-22%2022%20245%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.2%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2216%22%20cy%3D%22198%22%20rx%3D%2212%22%20ry%3D%225%22%20transform%3D%22rotate%28-28%2016%20198%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2219%22%20cy%3D%22156%22%20rx%3D%2211%22%20ry%3D%224.5%22%20transform%3D%22rotate%28-24%2019%20156%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.17%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2221%22%20cy%3D%22117%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%28-20%2021%20117%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%22110%22%20cy%3D%22226%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%2816%20110%20226%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%22104%22%20cy%3D%22183%22%20rx%3D%229%22%20ry%3D%223.8%22%20transform%3D%22rotate%2820%20104%20183%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.15%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20atas%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2262%22%20cy%3D%226%22%20%20r%3D%226%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.34%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.9%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2262%22%20cy%3D%226%22%20%20r%3D%2211%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.22%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2252%22%20cy%3D%22-1%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2272%22%20cy%3D%22-1%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2252%22%20cy%3D%2213%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2272%22%20cy%3D%2213%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22156%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2210%22%20cy%3D%22150%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22148%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2226%22%20cy%3D%22152%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2242%22%20cy%3D%2288%22%20%20r%3D%222%22%20%20%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.42%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2286%22%20cy%3D%2278%22%20%20r%3D%221.8%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.36%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2238%22%20cy%3D%2258%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2282%22%20cy%3D%2244%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2244%22%20cy%3D%2230%22%20%20r%3D%221.2%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.26%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
             <h3>Assalamu'alaikum</h3>
             <div class="divider"><span class="divider-icon">✦</span></div>
 
@@ -391,11 +932,24 @@
             </div>
             <div style="height: 1px; background: var(--border-gold); max-width: 85%; margin: 0 auto 40px;"></div>
 
+            <div class="gallery-outer">
+            <img class="gallery-ornament-top" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20500%2040%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3C%21--%20garis%20kiri%20dan%20kanan%20--%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2220%22%20x2%3D%22195%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3Cline%20x1%3D%22305%22%20y1%3D%2220%22%20x2%3D%22500%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kiri%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M140%2020%20Q155%208%20170%2020%20Q185%2032%20200%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kanan%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M360%2020%20Q345%208%20330%2020%20Q315%2032%20300%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%227%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.32%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%2213%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.25%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22237%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22263%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22170%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kanan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22330%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20hiasan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2260%22%20%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22440%22%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22400%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
             <div class="gallery-container">
                 <img id="img1" class="gallery-item" src="https://lh3.googleusercontent.com/d/1HR9NXSMe_8Wmqggt39hHmJBmhijHXDuf" alt="Gallery 1">
                 <img id="img2" class="gallery-item" src="https://lh3.googleusercontent.com/d/10XUppKiWl2FnsZhFo5utgzdJtFdHhYwU" alt="Gallery 2">
                 <img id="img3" class="gallery-item" src="https://lh3.googleusercontent.com/d/1aclIeJNVywRjGTwZG1r8FHjeyLoi7cn1" alt="Gallery 3">
+            </div><!-- /gallery-container -->
+
+            <!-- Mobile: portrait + ornamen -->
+            <div class="photo-ornament-wrapper">
+                <img class="ornamen-atas"  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 28'%3E%3Cg fill='none' stroke='%23C5A059' stroke-linecap='round'%3E%3Cline x1='0' y1='14' x2='38' y2='14' stroke-width='0.8' stroke-opacity='.5'/%3E%3Cline x1='82' y1='14' x2='120' y2='14' stroke-width='0.8' stroke-opacity='.5'/%3E%3Ccircle cx='60' cy='14' r='5' fill='%23C5A059' fill-opacity='.28' stroke='%23C5A059' stroke-width='1'/%3E%3Ccircle cx='44' cy='14' r='3' fill='%23d4b07a' fill-opacity='.32' stroke='%23C5A059' stroke-width='.7'/%3E%3Ccircle cx='76' cy='14' r='3' fill='%23d4b07a' fill-opacity='.32' stroke='%23C5A059' stroke-width='.7'/%3E%3Ccircle cx='51' cy='9' r='1.5' fill='%23C5A059' fill-opacity='.4'/%3E%3Ccircle cx='69' cy='9' r='1.5' fill='%23C5A059' fill-opacity='.4'/%3E%3C/g%3E%3C/svg%3E" alt="">
+                <img class="ornamen-kiri"  src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20320%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%20stroke-width%3D%221.2%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M75%20315%20Q70%20275%2074%20238%20Q78%20200%2068%20168%20Q58%20136%2064%20104%20Q68%2076%2062%2048%20Q58%2026%2062%206%22%20stroke-width%3D%221.6%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M72%20255%20Q50%20240%2026%20245%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M70%20210%20Q46%20194%2020%20198%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M68%20168%20Q48%20152%2024%20156%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M66%20128%20Q48%20114%2026%20117%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M74%20235%20Q94%20222%20108%20226%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M72%20192%20Q90%20180%20102%20183%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2222%22%20cy%3D%22245%22%20rx%3D%2213%22%20ry%3D%225.5%22%20transform%3D%22rotate%28-22%2022%20245%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.2%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2216%22%20cy%3D%22198%22%20rx%3D%2212%22%20ry%3D%225%22%20transform%3D%22rotate%28-28%2016%20198%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2219%22%20cy%3D%22156%22%20rx%3D%2211%22%20ry%3D%224.5%22%20transform%3D%22rotate%28-24%2019%20156%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.17%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2221%22%20cy%3D%22117%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%28-20%2021%20117%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%22110%22%20cy%3D%22226%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%2816%20110%20226%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%22104%22%20cy%3D%22183%22%20rx%3D%229%22%20ry%3D%223.8%22%20transform%3D%22rotate%2820%20104%20183%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.15%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20atas%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2262%22%20cy%3D%226%22%20%20r%3D%226%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.34%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.9%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2262%22%20cy%3D%226%22%20%20r%3D%2211%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.22%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2252%22%20cy%3D%22-1%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2272%22%20cy%3D%22-1%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2252%22%20cy%3D%2213%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2272%22%20cy%3D%2213%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22156%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2210%22%20cy%3D%22150%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22148%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2226%22%20cy%3D%22152%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2242%22%20cy%3D%2288%22%20%20r%3D%222%22%20%20%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.42%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2286%22%20cy%3D%2278%22%20%20r%3D%221.8%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.36%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2238%22%20cy%3D%2258%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2282%22%20cy%3D%2244%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2244%22%20cy%3D%2230%22%20%20r%3D%221.2%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.26%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
+                <img class="ornamen-kanan" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20320%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%20stroke-width%3D%221.2%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M75%20315%20Q70%20275%2074%20238%20Q78%20200%2068%20168%20Q58%20136%2064%20104%20Q68%2076%2062%2048%20Q58%2026%2062%206%22%20stroke-width%3D%221.6%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M72%20255%20Q50%20240%2026%20245%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M70%20210%20Q46%20194%2020%20198%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M68%20168%20Q48%20152%2024%20156%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M66%20128%20Q48%20114%2026%20117%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M74%20235%20Q94%20222%20108%20226%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M72%20192%20Q90%20180%20102%20183%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2222%22%20cy%3D%22245%22%20rx%3D%2213%22%20ry%3D%225.5%22%20transform%3D%22rotate%28-22%2022%20245%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.2%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2216%22%20cy%3D%22198%22%20rx%3D%2212%22%20ry%3D%225%22%20transform%3D%22rotate%28-28%2016%20198%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2219%22%20cy%3D%22156%22%20rx%3D%2211%22%20ry%3D%224.5%22%20transform%3D%22rotate%28-24%2019%20156%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.17%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2221%22%20cy%3D%22117%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%28-20%2021%20117%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%22110%22%20cy%3D%22226%22%20rx%3D%2210%22%20ry%3D%224%22%20transform%3D%22rotate%2816%20110%20226%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.16%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Cellipse%20cx%3D%22104%22%20cy%3D%22183%22%20rx%3D%229%22%20ry%3D%223.8%22%20transform%3D%22rotate%2820%20104%20183%29%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.15%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20atas%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2262%22%20cy%3D%226%22%20%20r%3D%226%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.34%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.9%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2262%22%20cy%3D%226%22%20%20r%3D%2211%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.22%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2252%22%20cy%3D%22-1%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2272%22%20cy%3D%22-1%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2252%22%20cy%3D%2213%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2272%22%20cy%3D%2213%22%20r%3D%223.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22156%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2210%22%20cy%3D%22150%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22148%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2226%22%20cy%3D%22152%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2242%22%20cy%3D%2288%22%20%20r%3D%222%22%20%20%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.42%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2286%22%20cy%3D%2278%22%20%20r%3D%221.8%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.36%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2238%22%20cy%3D%2258%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2282%22%20cy%3D%2244%22%20%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2244%22%20cy%3D%2230%22%20%20r%3D%221.2%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.26%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
+                <img class="ornamen-bawah" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 28'%3E%3Cg fill='none' stroke='%23C5A059' stroke-linecap='round'%3E%3Cline x1='0' y1='14' x2='38' y2='14' stroke-width='0.8' stroke-opacity='.5'/%3E%3Cline x1='82' y1='14' x2='120' y2='14' stroke-width='0.8' stroke-opacity='.5'/%3E%3Ccircle cx='60' cy='14' r='5' fill='%23C5A059' fill-opacity='.28' stroke='%23C5A059' stroke-width='1'/%3E%3Ccircle cx='44' cy='14' r='3' fill='%23d4b07a' fill-opacity='.32' stroke='%23C5A059' stroke-width='.7'/%3E%3Ccircle cx='76' cy='14' r='3' fill='%23d4b07a' fill-opacity='.32' stroke='%23C5A059' stroke-width='.7'/%3E%3Ccircle cx='51' cy='9' r='1.5' fill='%23C5A059' fill-opacity='.4'/%3E%3Ccircle cx='69' cy='9' r='1.5' fill='%23C5A059' fill-opacity='.4'/%3E%3C/g%3E%3C/svg%3E" alt="">
             </div>
+
+            <img class="gallery-ornament-bottom" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20500%2040%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3C%21--%20garis%20kiri%20dan%20kanan%20--%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2220%22%20x2%3D%22195%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3Cline%20x1%3D%22305%22%20y1%3D%2220%22%20x2%3D%22500%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kiri%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M140%2020%20Q155%208%20170%2020%20Q185%2032%20200%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kanan%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M360%2020%20Q345%208%20330%2020%20Q315%2032%20300%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%227%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.32%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%2213%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.25%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22237%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22263%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22170%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kanan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22330%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20hiasan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2260%22%20%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22440%22%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22400%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
+            </div><!-- /gallery-outer -->
         </section>
 
         <section id="event" style="background-color: var(--soft-gold); max-width: 100%; padding: 80px 24px;">
@@ -427,6 +981,9 @@
             </div>
         </section>
 
+        <div class="section-ornament-div" style="text-align:center; background: var(--bg-warm); padding: 0 24px;">
+            <img class="section-ornament" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20500%2040%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3C%21--%20garis%20kiri%20dan%20kanan%20--%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2220%22%20x2%3D%22195%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3Cline%20x1%3D%22305%22%20y1%3D%2220%22%20x2%3D%22500%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kiri%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M140%2020%20Q155%208%20170%2020%20Q185%2032%20200%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kanan%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M360%2020%20Q345%208%20330%2020%20Q315%2032%20300%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%227%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.32%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%2213%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.25%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22237%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22263%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22170%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kanan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22330%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20hiasan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2260%22%20%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22440%22%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22400%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="" style="max-width:500px; opacity:0.4; display:inline-block;">
+        </div>
         <section id="countdown" style="background-color: var(--bg-warm); max-width: 100%; padding: 80px 24px;">
             <div class="countdown-wrapper">
                 <span class="section-eyebrow">Menghitung Hari</span>
@@ -467,6 +1024,9 @@
             </div>
         </section>
 
+        <div class="section-ornament-div" style="text-align:center; background: var(--bg-light); padding: 0 24px;">
+            <img class="section-ornament" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20500%2040%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3C%21--%20garis%20kiri%20dan%20kanan%20--%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2220%22%20x2%3D%22195%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3Cline%20x1%3D%22305%22%20y1%3D%2220%22%20x2%3D%22500%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kiri%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M140%2020%20Q155%208%20170%2020%20Q185%2032%20200%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kanan%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M360%2020%20Q345%208%20330%2020%20Q315%2032%20300%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%227%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.32%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%2213%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.25%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22237%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22263%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22170%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kanan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22330%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20hiasan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2260%22%20%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22440%22%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22400%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="" style="max-width:500px; opacity:0.4; display:inline-block;">
+        </div>
         <section id="gift">
             <span class="section-eyebrow">Hadiah Pernikahan</span>
             <h3>Wedding Gift</h3>
@@ -484,7 +1044,8 @@
                     <span class="acc-name">a.n Ana</span>
                 </div>
             </div>
-        </section>
+            <img class="gift-ornament" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20260%2050%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2225%22%20x2%3D%2290%22%20y2%3D%2225%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.45%22/%3E%0A%20%20%20%20%3Cline%20x1%3D%22170%22%20y1%3D%2225%22%20x2%3D%22260%22%20y2%3D%2225%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.45%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22130%22%20cy%3D%2225%22%20r%3D%2210%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.18%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.9%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22130%22%20cy%3D%2225%22%20r%3D%2217%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.2%22%20stroke-width%3D%220.7%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22115%22%20cy%3D%2215%22%20r%3D%225%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22145%22%20cy%3D%2215%22%20r%3D%225%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22115%22%20cy%3D%2235%22%20r%3D%225%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22145%22%20cy%3D%2235%22%20r%3D%225%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.28%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22113%22%20cy%3D%2225%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22147%22%20cy%3D%2225%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2295%22%20%20cy%3D%2225%22%20r%3D%224%22%20%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.7%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22165%22%20cy%3D%2225%22%20r%3D%224%22%20%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.7%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2240%22%20%20cy%3D%2225%22%20r%3D%222%22%20%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22220%22%20cy%3D%2225%22%20r%3D%222%22%20%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2215%22%20%20cy%3D%2225%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.22%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22245%22%20cy%3D%2225%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.22%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
+                    </section>
 
         <section id="comments" style="background-color: var(--soft-gold); max-width: 100%; padding: 80px 24px;">
             <div style="max-width: 700px; margin: 0 auto;">
@@ -510,6 +1071,7 @@
         </section>
 
         <footer style="padding: 60px 20px; text-align: center; background: white;">
+            <img class="footer-ornament" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20500%2040%22%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3C%21--%20garis%20kiri%20dan%20kanan%20--%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2220%22%20x2%3D%22195%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3Cline%20x1%3D%22305%22%20y1%3D%2220%22%20x2%3D%22500%22%20y2%3D%2220%22%20stroke-width%3D%220.8%22%20stroke-opacity%3D%220.5%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kiri%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M140%2020%20Q155%208%20170%2020%20Q185%2032%20200%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20kurva%20kanan%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M360%2020%20Q345%208%20330%2020%20Q315%2032%20300%2020%22%20stroke-width%3D%220.9%22%20stroke-opacity%3D%220.6%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20tengah%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%227%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.32%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%221%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22250%22%20cy%3D%2220%22%20r%3D%2213%22%20fill%3D%22none%22%20stroke%3D%22%23C5A059%22%20stroke-opacity%3D%220.25%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2212%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.38%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22238%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22262%22%20cy%3D%2228%22%20r%3D%224.5%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.35%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22237%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22263%22%20cy%3D%2220%22%20r%3D%224%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kiri%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22170%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22161%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22179%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20bunga%20kanan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22330%22%20cy%3D%2220%22%20r%3D%224.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.28%22%20stroke%3D%22%23C5A059%22%20stroke-width%3D%220.8%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2214%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.32%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22321%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22339%22%20cy%3D%2226%22%20r%3D%222.8%22%20fill%3D%22%23d4b07a%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3C%21--%20dot%20hiasan%20--%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2260%22%20%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22440%22%20cy%3D%2220%22%20r%3D%222%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.3%22/%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22400%22%20cy%3D%2220%22%20r%3D%221.5%22%20fill%3D%22%23C5A059%22%20fill-opacity%3D%220.25%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E" alt="">
             <h3 style="font-size: clamp(2.2rem, 6.5vw, 3rem);">Denes & Ana</h3>
             <p style="font-size: 0.7rem; color: var(--text-soft); letter-spacing: 3px; margin-top: 4px; font-weight: 400;">© 2026 · DESIGNED WITH HEART</p>
         </footer>
@@ -525,10 +1087,8 @@
         let selectedStatus = "";
 
         const myPlaylist = [
-            "https://files.catbox.moe/rv54zh.mp3",
-            "https://files.catbox.moe/wnyint.mp3",
-            "https://files.catbox.moe/9f2aem.mp3",
-			"https://files.catbox.moe/abei7t.mp3"
+            "https://files.catbox.moe/9hcfzl.mp3",
+            "https://files.catbox.moe/9f2aem.mp3"
         ];
 
         const myImages = [
@@ -806,7 +1366,23 @@
             }
         }
 
+        function initSectionTransitions(){
+            const items=document.querySelectorAll('.fade-section');
+            const observer=new IntersectionObserver((entries)=>{
+                entries.forEach(entry=>{
+                    if(entry.isIntersecting){
+                        entry.target.classList.add('visible');
+                    }else{
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            },{threshold:0.15});
+            items.forEach(el=>observer.observe(el));
+        }
+
         getGuestNameFromURL();
+        document.addEventListener('DOMContentLoaded', initSectionTransitions);
+
     </script>
 </body>
 </html>
